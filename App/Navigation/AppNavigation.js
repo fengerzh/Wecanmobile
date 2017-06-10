@@ -12,7 +12,7 @@ import {
   StackNavigator,
 } from 'react-navigation';
 
-import sActivities from '../Containers/Activities';
+import sActivities from '../Containers/ActivitiesScreen';
 import sActivity from '../Containers/Activity';
 import sResources from '../Containers/Resources';
 import sResource from '../Containers/Resource';

@@ -43,9 +43,9 @@
 		6122D4261EE447850038F4D9 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122D4251EE447850038F4D9 /* libc++.tbd */; };
 		6122D4281EE447960038F4D9 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122D4271EE447960038F4D9 /* libz.tbd */; };
 		6122D42A1EE447A90038F4D9 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122D4291EE447A90038F4D9 /* CoreTelephony.framework */; };
+		61F189261EE8EC3A006D2DBE /* libRCTWeChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 61F189251EE8EBFF006D2DBE /* libRCTWeChat.a */; };
 		632494E765B846118A3E5380 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 31EE5B8FC16B4DA79156F000 /* Ionicons.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		8BE6B17BAEB644419F4127E0 /* libRCTWeChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E76728608B24874832650DA /* libRCTWeChat.a */; };
 		95C55F96DB5A4C1AAC2D403B /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 127BDC36A19F4F50AC00A497 /* SimpleLineIcons.ttf */; };
 		973B9797610A485083FD8488 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C02B97CF494D8DBF82A0AE /* libRNVectorIcons.a */; };
 		9CD8E9255B8B4C3A882EA215 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A8C3CF8553D74B2BB3B9D357 /* Octicons.ttf */; };
@@ -230,19 +230,19 @@
 			remoteGlobalIDString = 2D2A28201D9B03D100D4039D;
 			remoteInfo = "RCTAnimation-tvOS";
 		};
-		6122D4171EE447010038F4D9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6ACF518B2FD44150AC049052 /* RCTWeChat.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 86D238421BD0BB9E00C75D01;
-			remoteInfo = RCTWeChat;
-		};
 		618A19C11EDFA0CB00F67BEB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B7D432BBEA5C4C1B81C59CA9 /* RNVectorIcons.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 5DBEB1501B18CEA900B34395;
 			remoteInfo = RNVectorIcons;
+		};
+		61F189241EE8EBFF006D2DBE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61F189201EE8EBFF006D2DBE /* RCTWeChat.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 86D238421BD0BB9E00C75D01;
+			remoteInfo = RCTWeChat;
 		};
 		78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -281,7 +281,6 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Wecanmobile/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Wecanmobile/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
-		1E76728608B24874832650DA /* libRCTWeChat.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTWeChat.a; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* Wecanmobile-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Wecanmobile-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* Wecanmobile-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Wecanmobile-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		31EE5B8FC16B4DA79156F000 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -295,7 +294,9 @@
 		6122D4251EE447850038F4D9 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		6122D4271EE447960038F4D9 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		6122D4291EE447A90038F4D9 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
-		6ACF518B2FD44150AC049052 /* RCTWeChat.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTWeChat.xcodeproj; path = "../node_modules/react-native-wx/ios/RCTWeChat.xcodeproj"; sourceTree = "<group>"; };
+		61F1891C1EE8E958006D2DBE /* ios */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ios; path = "../node_modules/react-native-wechat/ios"; sourceTree = "<group>"; };
+		61F1891E1EE8E9C1006D2DBE /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libWeChatSDK.a; path = "../node_modules/react-native-wechat/ios/libWeChatSDK.a"; sourceTree = "<group>"; };
+		61F189201EE8EBFF006D2DBE /* RCTWeChat.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWeChat.xcodeproj; path = "../node_modules/react-native-wechat/ios/RCTWeChat.xcodeproj"; sourceTree = "<group>"; };
 		78C02B97CF494D8DBF82A0AE /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
@@ -334,7 +335,7 @@
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				973B9797610A485083FD8488 /* libRNVectorIcons.a in Frameworks */,
-				8BE6B17BAEB644419F4127E0 /* libRCTWeChat.a in Frameworks */,
+				61F189261EE8EC3A006D2DBE /* libRCTWeChat.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -478,17 +479,11 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6122D4031EE447010038F4D9 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6122D4181EE447010038F4D9 /* libRCTWeChat.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		6122D4221EE4476A0038F4D9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				61F1891E1EE8E9C1006D2DBE /* libWeChatSDK.a */,
+				61F1891C1EE8E958006D2DBE /* ios */,
 				6122D4291EE447A90038F4D9 /* CoreTelephony.framework */,
 				6122D4271EE447960038F4D9 /* libz.tbd */,
 				6122D4251EE447850038F4D9 /* libc++.tbd */,
@@ -505,6 +500,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		61F189211EE8EBFF006D2DBE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				61F189251EE8EBFF006D2DBE /* libRCTWeChat.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -517,6 +520,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				61F189201EE8EBFF006D2DBE /* RCTWeChat.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -529,7 +533,6 @@
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				B7D432BBEA5C4C1B81C59CA9 /* RNVectorIcons.xcodeproj */,
-				6ACF518B2FD44150AC049052 /* RCTWeChat.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -741,8 +744,8 @@
 					ProjectRef = 139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */;
 				},
 				{
-					ProductGroup = 6122D4031EE447010038F4D9 /* Products */;
-					ProjectRef = 6ACF518B2FD44150AC049052 /* RCTWeChat.xcodeproj */;
+					ProductGroup = 61F189211EE8EBFF006D2DBE /* Products */;
+					ProjectRef = 61F189201EE8EBFF006D2DBE /* RCTWeChat.xcodeproj */;
 				},
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
@@ -925,18 +928,18 @@
 			remoteRef = 5E9157341DD0AC6500FF2AA8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6122D4181EE447010038F4D9 /* libRCTWeChat.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTWeChat.a;
-			remoteRef = 6122D4171EE447010038F4D9 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		618A19C21EDFA0CB00F67BEB /* libRNVectorIcons.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libRNVectorIcons.a;
 			remoteRef = 618A19C11EDFA0CB00F67BEB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		61F189251EE8EBFF006D2DBE /* libRCTWeChat.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTWeChat.a;
+			remoteRef = 61F189241EE8EBFF006D2DBE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		78C398B91ACF4ADC00677621 /* libRCTLinking.a */ = {

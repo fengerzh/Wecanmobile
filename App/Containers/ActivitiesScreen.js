@@ -10,39 +10,17 @@ import {
   Text,
   TouchableHighlight,
   View,
-  StyleSheet,
 } from 'react-native';
+import { connect } from 'react-redux';
 import {
   ListItem,
 } from 'react-native-elements';
+import Formatter from 'chinese-datetime-formatter';
+import ActivitiesActions from '../Redux/ActivitiesRedux';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    // alignItems: 'center',
-    backgroundColor: '#AAAAAA',
-  },
-  itemContainer: {
-    backgroundColor: '#FFFFFF',
-    marginBottom: 10,
-  },
-  imageContainer: {
-    height: 150,
-  },
-  image: {
-    flex: 1,
-  },
-  textContainer: {
-    padding: 5,
-  },
-  text: {
-    // fontFamily: '苹方-简',
-    // fontWeight: '300',
-  }
-});
+import styles from './Styles/ActivitiesScreenStyles';
 
-export default class Activities extends PureComponent {
+class ActivitiesScreen extends PureComponent {
   state: {
     dsActivities: Array<any>;
     isLoading: boolean;
@@ -63,10 +41,11 @@ export default class Activities extends PureComponent {
   }
 
   componentWillMount() {
-    this.getActivities();
+    this.props.attemptGetActivities();
   }
 
   async getActivities() {
+    // 调用公开接口获取数据
     const response = await fetch('https://api.weinnovators.com/activities?corpid=wxd9ed6139adfa53ce');
     const responseJson = await response.json();
     this.setState({
@@ -74,6 +53,8 @@ export default class Activities extends PureComponent {
       isLoading: false,
     });
     return 1;
+
+    // 调用私密接口
     // await AsyncStorage.removeItem('id_token');
     // try {
     //   const DEMO_TOKEN = await AsyncStorage.getItem('id_token');
@@ -130,19 +111,12 @@ export default class Activities extends PureComponent {
     this.getActivities();
   }
 
-  // <ListItem
-  //   title={item.act_title.replace(/&ldquo;/g, '“').replace(/&rdquo;/g, '”')}
-  //   subtitle={item.act_date}
-  //   avatar={{
-  //     uri: item.title_pic == undefined ? 'https://wx.weinnovators.com/images/title_pic_01.jpg' : `https://img.weinnovators.com/accimages/${item.title_pic}.jpg`,
-  //   }}
-  //   onPress={() => this.props.navigation.navigate('Activity', { act_id: item.act_id })}
-  //   containerStyle={{ borderBottomWidth: 0 }}
-  // />
   render() {
+    const { activities, fetching } = this.props;
+
     return (
       <View style={styles.container} key={this.state.key}>
-        {this.state.isLoading && (
+        {fetching && (
           <ActivityIndicator
             style={[
               styles.centering,
@@ -154,7 +128,7 @@ export default class Activities extends PureComponent {
           />
         )}
         <FlatList
-          data={this.state.dsActivities}
+          data={activities}
           keyExtractor={item => item.act_id}
           renderItem={({ item }) => (
             <TouchableHighlight onPress={() => this.props.navigation.navigate('Activity', { act_id: item.act_id })}>
@@ -164,7 +138,7 @@ export default class Activities extends PureComponent {
                 </View>
                 <View style={styles.textContainer}>
                   <Text style={styles.text}>{item.act_title.replace(/&ldquo;/g, '“').replace(/&rdquo;/g, '”')}</Text>
-                  <Text style={{fontSize: 10, color: '#999999'}}>{item.act_date}</Text>
+                  <Text style={{fontSize: 10, color: '#999999'}}>{Formatter(item.act_date, 'yyyy-mm-dd')}</Text>
                   <Text style={{fontSize: 10, color: '#999999'}}>{item.course_name}</Text>
                 </View>
               </View>
@@ -177,10 +151,24 @@ export default class Activities extends PureComponent {
 }
 // ItemSeparatorComponent={this.renderSeparator}
 
-Activities.propTypes = {
+ActivitiesScreen.propTypes = {
   navigation: PropTypes.shape({
     routeName: PropTypes.string,
     key: PropTypes.string,
     navigate: PropTypes.func,
   }).isRequired,
 };
+
+const mapStateToProps = (state) => {
+  return {
+    activities: state.activities.activities,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    attemptGetActivities: () => dispatch(ActivitiesActions.activitiesRequest()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ActivitiesScreen);

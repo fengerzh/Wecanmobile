@@ -1,14 +1,23 @@
-// @flow
-
 import React, { Component } from 'react';
+import { Provider } from 'react-redux';
 
-import '../Config/ReactotronConfig';
+import '../Config';
+import DebugConfig from '../Config/DebugConfig';
 import RootContainer from './RootContainer';
+import createStore from '../Redux';
 
-export default class App extends Component {
+const store = createStore();
+
+class App extends Component {
   render () {
     return (
-      <RootContainer />
+      <Provider store={store}>
+        <RootContainer />
+      </Provider>
     )
   }
 }
+
+export default DebugConfig.useReactotron
+  ? console.tron.overlay(App)
+  : App;

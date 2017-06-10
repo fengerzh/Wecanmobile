@@ -16,7 +16,6 @@ import {
 import {
   NavigationActions,
 } from 'react-navigation';
-// import * as WechatAPI from 'react-native-wx';
 import * as WeChat from 'react-native-wechat';
 
 export default class Activity extends Component {

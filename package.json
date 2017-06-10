@@ -1,33 +1,57 @@
 {
   "name": "Wecanmobile",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "flow": "flow"
   },
   "dependencies": {
+    "apisauce": "^0.13.0",
+    "chinese-datetime-formatter": "^0.1.4",
     "prop-types": "^15.5.10",
-    "react": "^16.0.0-alpha.6",
+    "react": "16.0.0-alpha.6",
     "react-native": "0.44.0",
-    "react-native-calendars": "^1.2.20",
+    "react-native-calendars": "^1.2.22",
     "react-native-elements": "^0.12.2",
     "react-native-global-props": "^1.1.1",
     "react-native-htmlview": "^0.9.0",
     "react-native-scrollable-tab-view": "^0.6.6",
-    "react-native-vector-icons": "^4.1.1",
+    "react-native-vector-icons": "^4.2.0",
     "react-native-wechat": "^1.9.2",
     "react-navigation": "^1.0.0-beta.11",
+    "react-redux": "^5.0.5",
+    "redux": "^3.6.0",
+    "redux-saga": "^0.15.3",
+    "reduxsauce": "^0.5.0",
+    "seamless-immutable": "^7.1.2",
     "tcomb-form-native": "^0.6.8"
   },
   "devDependencies": {
+    "babel-cli": "^6.24.1",
     "babel-jest": "20.0.3",
+    "babel-preset-flow": "^6.23.0",
     "babel-preset-react-native": "1.9.2",
-    "jest": "20.0.3",
+    "flow-bin": "^0.47.0",
+    "jest": "^20.0.3",
     "react-test-renderer": "16.0.0-alpha.6",
-    "reactotron-react-native": "^1.11.1"
+    "reactotron-react-native": "^1.11.1",
+    "reactotron-redux": "^1.11.2",
+    "reactotron-redux-saga": "^1.11.1"
   },
   "jest": {
+    "testMatch": [
+      "**/Tests/**/*.js",
+      "**/?(*.)(spec|test).js?(x)"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "Tests/Setup.js"
+    ],
+    "setupFiles": [
+      "./Tests/Setup"
+    ],
     "preset": "react-native"
   }
 }

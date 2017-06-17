@@ -1,31 +1,40 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import {
   ActivityIndicator,
   AsyncStorage,
+  Dimensions,
   FlatList,
   Image,
-  Text,
   TouchableHighlight,
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
 import {
-  ListItem,
-} from 'react-native-elements';
+  Card,
+  CardItem,
+  Container,
+  Content,
+  Spinner,
+  Thumbnail,
+  Text,
+  Button,
+  Icon,
+  Left,
+  Body
+} from 'native-base';
 import Formatter from 'chinese-datetime-formatter';
 import ActivitiesActions from '../Redux/ActivitiesRedux';
-
-import styles from './Styles/ActivitiesScreenStyles';
 
 class ActivitiesScreen extends PureComponent {
   state: {
     dsActivities: Array<any>;
     isLoading: boolean;
     key: number;
+    imageContainerHeight: number;
   };
+  onLayout: Function;
 
   static navigationOptions = {
     title: '所有活动',
@@ -37,7 +46,9 @@ class ActivitiesScreen extends PureComponent {
       dsActivities: [],
       isLoading: true,
       key: 0,
+      imageContainerHeight: 150,
     };
+    this.onLayout = this.onLayout.bind(this);
   }
 
   componentWillMount() {
@@ -111,53 +122,59 @@ class ActivitiesScreen extends PureComponent {
     this.getActivities();
   }
 
+  onLayout(e) {
+    if (Dimensions.get('window').width > Dimensions.get('window').height) {
+      this.setState({
+        // width: Dimensions.get('window').width,
+        imageContainerHeight: 300,
+      });
+    } else {
+      this.setState({
+        // width: Dimensions.get('window').width,
+        imageContainerHeight: 150,
+      });
+    }
+  }
+
   render() {
     const { activities, fetching } = this.props;
+    const logo = require('../Images/logo.png');
 
     return (
-      <View style={styles.container} key={this.state.key}>
-        {fetching && (
-          <ActivityIndicator
-            style={[
-              styles.centering,
-              {
-                height: 80,
-              },
-            ]}
-            size="large"
-          />
-        )}
-        <FlatList
-          data={activities}
-          keyExtractor={item => item.act_id}
-          renderItem={({ item }) => (
-            <TouchableHighlight onPress={() => this.props.navigation.navigate('Activity', { act_id: item.act_id })}>
-              <View style={styles.itemContainer}>
-                <View style={styles.imageContainer}>
-                  <Image style={styles.image} source={{uri: item.title_pic == undefined ? 'https://wx.weinnovators.com/images/title_pic_01.jpg' : `https://img.weinnovators.com/accimages/${item.title_pic}.jpg`}} />
-                </View>
-                <View style={styles.textContainer}>
-                  <Text style={styles.text}>{item.act_title.replace(/&ldquo;/g, '“').replace(/&rdquo;/g, '”')}</Text>
-                  <Text style={{fontSize: 10, color: '#999999'}}>{Formatter(item.act_date, 'yyyy-mm-dd')}</Text>
-                  <Text style={{fontSize: 10, color: '#999999'}}>{item.course_name}</Text>
-                </View>
-              </View>
-            </TouchableHighlight>
+      <Container>
+        <Content padder>
+          {fetching && (
+            <Spinner />
           )}
-        />
-      </View>
+          <FlatList
+            data={activities}
+            keyExtractor={item => item.act_id}
+            renderItem={({ item }) => (
+              <TouchableHighlight onPress={() => this.props.navigation.navigate('Activity', { act_id: item.act_id })}>
+                <Card style={{ flex: 0 }}>
+                  <CardItem cardBody>
+                    <Image
+                      style={{ resizeMode: 'cover', width: null, height: this.state.imageContainerHeight, flex: 1 }}
+                      source={{uri: item.title_pic == undefined ? 'https://wx.weinnovators.com/images/title_pic_01.jpg' : `https://img.weinnovators.com/accimages/${item.title_pic}.jpg`}}
+                      onLayout={this.onLayout}
+                    />
+                  </CardItem>
+                  <CardItem>
+                    <Body>
+                      <Text>{item.act_title.replace(/&ldquo;/g, '“').replace(/&rdquo;/g, '”')}</Text>
+                      <Text note>{Formatter(item.act_date, 'yyyy-mm-dd')}</Text>
+                      <Text note>{item.course_name}</Text>
+                    </Body>
+                  </CardItem>
+                </Card>
+              </TouchableHighlight>
+            )}
+          />
+        </Content>
+      </Container>
     );
   }
 }
-// ItemSeparatorComponent={this.renderSeparator}
-
-ActivitiesScreen.propTypes = {
-  navigation: PropTypes.shape({
-    routeName: PropTypes.string,
-    key: PropTypes.string,
-    navigate: PropTypes.func,
-  }).isRequired,
-};
 
 const mapStateToProps = (state) => {
   return {

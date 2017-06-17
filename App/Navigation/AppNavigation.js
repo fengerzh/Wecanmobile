@@ -16,10 +16,10 @@ import sActivities from '../Containers/ActivitiesScreen';
 import sActivity from '../Containers/Activity';
 import sResources from '../Containers/Resources';
 import sResource from '../Containers/Resource';
-import sNewses from '../Containers/Newses';
+import sNewses from '../Containers/NewsesScreen';
 import sNews from '../Containers/News';
-import sMine from '../Containers/Mine';
-import sLogin from '../Containers/Login';
+import sMine from '../Containers/MineScreen';
+// import sLogin from '../Containers/Login';
 import iconActivities from '../icons/activities.png';
 import iconResources from '../icons/resources.png';
 import iconNews from '../icons/news.png';
@@ -87,7 +87,8 @@ tabBarIcon4.propTypes = {
 // });
 
 // 总页签
-const MainTabNavigator = TabNavigator(
+const AppNavigation = TabNavigator(
+// const MainTabNavigator = TabNavigator(
   {
     Activities: {
       screen: StackNavigator({
@@ -152,12 +153,12 @@ const MainTabNavigator = TabNavigator(
   },
 );
 
-const AppNavigation = StackNavigator({
-  MainTabNavigator: { screen: MainTabNavigator },
-  Login: { screen: sLogin },
-}, {
-  headerMode: 'none',
-  mode: 'modal',
-});
+// const AppNavigation = StackNavigator({
+//   MainTabNavigator: { screen: MainTabNavigator },
+//   Login: { screen: sLogin },
+// }, {
+//   headerMode: 'none',
+//   mode: 'modal',
+// });
 
 export default AppNavigation;

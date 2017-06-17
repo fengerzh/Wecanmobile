@@ -4,17 +4,17 @@ import { createReducer, createActions } from 'reduxsauce';
 import Immutable from 'seamless-immutable';
 
 const { Types, Creators } = createActions({
-  activitiesRequest: null,
-  activitiesSuccess: ['activities'],
-  activitiesFailure: null,
+  newsesRequest: null,
+  newsesSuccess: ['newses'],
+  newsesFailure: null,
 });
 
-export const ActivitiesTypes = Types;
+export const NewsesTypes = Types;
 export default Creators;
 
 export const INITIAL_STATE = Immutable({
-  activities: null,
-  fetching: true,
+  newses: null,
+  fetching: null,
   error: null,
 });
 
@@ -26,12 +26,11 @@ export const request = (state: any) => {
 }
 
 export const success = (state: any, action: any) => {
-  const { activities } = action;
-  // alert(JSON.stringify(activities));
+  const { newses } = action;
   return state.merge({
     fetching: false,
     error: null,
-    activities,
+    newses,
   });
 }
 
@@ -39,12 +38,12 @@ export const failure = (state: any) => {
   return state.merge({
     fetching: false,
     error: true,
-    activities: null,
+    newses: null,
   });
 }
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.ACTIVITIES_REQUEST]: request,
-  [Types.ACTIVITIES_SUCCESS]: success,
-  [Types.ACTIVITIES_FAILURE]: failure
+  [Types.NEWSES_REQUEST]: request,
+  [Types.NEWSES_SUCCESS]: success,
+  [Types.NEWSES_FAILURE]: failure
 });

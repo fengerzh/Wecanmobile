@@ -9,10 +9,10 @@ import {
   View,
 } from 'react-native';
 import HTMLView from 'react-native-htmlview';
-import {
-  List,
-  ListItem,
-} from 'react-native-elements';
+// import {
+//   List,
+//   ListItem,
+// } from 'react-native-elements';
 import {
   NavigationActions,
 } from 'react-navigation';
@@ -98,37 +98,40 @@ export default class Activity extends Component {
   //   </View>
   // }
   // avatar={require('../images/avatar1.jpg')}
+
+
+  // <ScrollView>
+  //   <View style={styles.imageContainer}>
+  //     <Image
+  //      style={styles.image}
+  //      source={{
+  //        url: item.title_pic == undefined ? 'https://wx.weinnovators.com/images/title_pic_01.jpg' : `https://img.weinnovators.com/accimages/${item.title_pic}.jpg`,
+  //      }}
+  //     />
+  //   </View>
+  //   <View>
+  //     <Text>{item.act_title}</Text>
+  //   </View>
+  //   <List style={{backgroundColor: '#FFFFFF', marginBottom: 20}}>
+  //     <ListItem
+  //       hideChevron={true}
+  //       leftIcon={{name: 'schedule'}}
+  //       title={item.act_date}
+  //     />
+  //     <ListItem
+  //       leftIcon={{name: 'place'}}
+  //       title={item.course_name}
+  //     />
+  //   </List>
+  //   <View style={{backgroundColor: '#FFFFFF', padding: 8}}>
+  //     <HTMLView value={item.act_desc} />
+  //   </View>
+  // </ScrollView>
+
   render() {
     const item = this.state.dataset;
     return (
       <View style={{flex: 1}}>
-        <ScrollView>
-          <View style={styles.imageContainer}>
-            <Image
-             style={styles.image}
-             source={{
-               url: item.title_pic == undefined ? 'https://wx.weinnovators.com/images/title_pic_01.jpg' : `https://img.weinnovators.com/accimages/${item.title_pic}.jpg`,
-             }}
-            />
-          </View>
-          <View>
-            <Text>{item.act_title}</Text>
-          </View>
-          <List style={{backgroundColor: '#FFFFFF', marginBottom: 20}}>
-            <ListItem
-              hideChevron={true}
-              leftIcon={{name: 'schedule'}}
-              title={item.act_date}
-            />
-            <ListItem
-              leftIcon={{name: 'place'}}
-              title={item.course_name}
-            />
-          </List>
-          <View style={{backgroundColor: '#FFFFFF', padding: 8}}>
-            <HTMLView value={item.act_desc} />
-          </View>
-        </ScrollView>
         <View style={styles.footer}>
           <Text style={{textAlign: 'center'}}>我要报名</Text>
         </View>
@@ -136,14 +139,6 @@ export default class Activity extends Component {
     );
   }
 }
-
-Activity.propTypes = {
-  navigation: React.PropTypes.shape({
-    routeName: React.PropTypes.string,
-    key: React.PropTypes.string,
-    navigate: React.PropTypes.func,
-  }).isRequired,
-};
 
 const styles = StyleSheet.create({
   imageContainer: {

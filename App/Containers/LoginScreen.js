@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import {
   AsyncStorage,
+  Modal,
   StyleSheet,
   Text,
   TouchableHighlight,
@@ -55,18 +56,20 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class Login extends Component {
+export default class LoginScreen extends Component {
+  state: {
+    modalVisible: boolean,
+  }
   form: any;
   userLogin: Function;
 
   constructor() {
     super();
+    this.state = {
+      modalVisible: true,
+    };
     this.userLogin = this.userLogin.bind(this);
   }
-
-  static navigationOptions = {
-    title: '登录',
-  };
 
   async onValueChange(item: string, selectedValue: string) {
     try {
@@ -94,51 +97,52 @@ export default class Login extends Component {
         this.onValueChange('id_token', responseData.id_token);
         this.onValueChange('idgl_user', responseData.idgl_user.toString());
         // 返回上一屏
-        this.props.navigation.state.params.onGoBack();
-        this.props.navigation.goBack();
+        await this.props.closeme();
+        // this.props.navigation.state.params.onGoBack();
+        // this.props.navigation.goBack();
       }
     }
   }
 
+  async closeModal() {
+    await this.props.navigation.navigate('Activities');
+    await this.props.closeme();
+  }
+
   render() {
-    // <TouchableHighlight style={styles.button} onPress={this._userSignup} underlayColor='#99d9f4'>
-    //   <Text style={styles.buttonText}>Signup</Text>
-    // </TouchableHighlight>
-    // <View style={styles.row}>
-    //   <TouchableHighlight onPress={this._getProtectedQuote} style={styles.button}>
-    //     <Text style={styles.buttonText}>Get a Chuck Norris Quote!</Text>
-    //   </TouchableHighlight>
-    // </View>
     return (
-      <View style={styles.container}>
-        <View style={styles.row}>
-          <Text style={styles.title}>登录</Text>
+      <Modal
+        animationType={"none"}
+        transparent={false}
+        visible={this.props.visible}
+        onRequestClose={() => {alert("Modal has been closed.")}}>
+        <View style={styles.container}>
+          <View style={styles.row}>
+            <Text style={styles.title}>登录</Text>
+          </View>
+          <View style={styles.row}>
+            <Form
+              ref={(c) => { this.form = c; }}
+              type={Person}
+              options={options}
+            />
+          </View>
+          <View style={styles.row}>
+            <TouchableHighlight
+              style={styles.button}
+              onPress={this.userLogin}
+              underlayColor="#99d9f4"
+            >
+              <Text style={styles.buttonText}>登录</Text>
+            </TouchableHighlight>
+            <View>
+              <TouchableHighlight onPress={() => { this.closeModal() }}>
+                <Text>取消</Text>
+              </TouchableHighlight>
+            </View>
+          </View>
         </View>
-        <View style={styles.row}>
-          <Form
-            ref={(c) => { this.form = c; }}
-            type={Person}
-            options={options}
-          />
-        </View>
-        <View style={styles.row}>
-          <TouchableHighlight
-            style={styles.button}
-            onPress={this.userLogin}
-            underlayColor="#99d9f4"
-          >
-            <Text style={styles.buttonText}>登录</Text>
-          </TouchableHighlight>
-        </View>
-      </View>
+      </Modal>
     );
   }
 }
-
-Login.propTypes = {
-  navigation: React.PropTypes.shape({
-    routeName: React.PropTypes.string,
-    key: React.PropTypes.string,
-    navigate: React.PropTypes.func,
-  }).isRequired,
-};

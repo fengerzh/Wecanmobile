@@ -1,7 +1,6 @@
 // @flow
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
   StyleSheet,
   Text,
@@ -126,14 +125,6 @@ export default class Resource extends Component {
     );
   }
 }
-
-Resource.propTypes = {
-  navigation: PropTypes.shape({
-    routeName: PropTypes.string,
-    key: PropTypes.string,
-    navigate: PropTypes.func,
-  }).isRequired,
-};
 
 const styles = StyleSheet.create({
   item: {

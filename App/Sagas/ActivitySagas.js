@@ -1,4 +1,4 @@
-import { call, put } from 'redux-saga/effects';
+import { all, call, put } from 'redux-saga/effects';
 import { path } from 'ramda';
 import ActivitiesActions from '../Redux/ActivitiesRedux';
 

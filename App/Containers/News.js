@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
   Text,
   View,
@@ -63,12 +62,4 @@ export default class News extends Component {
 
 News.navigationOptions = {
   title: '新闻详情',
-};
-
-News.propTypes = {
-  navigation: PropTypes.shape({
-    routeName: PropTypes.string,
-    key: PropTypes.string,
-    navigate: PropTypes.func,
-  }).isRequired,
 };

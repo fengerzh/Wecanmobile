@@ -10,9 +10,9 @@ import {
   StyleSheet,
   Text,
 } from 'react-native';
-import {
-  ListItem,
-} from 'react-native-elements';
+// import {
+//   ListItem,
+// } from 'react-native-elements';
 import ScrollableTabView, { ScrollableTabBar, }  from 'react-native-scrollable-tab-view';
 
 const styles = StyleSheet.create({
@@ -63,6 +63,17 @@ export default class Resources extends Component {
     }
   }
 
+  // <FlatList
+  //   data={this.state.dataset}
+  //   keyExtractor={item => item.idfacility}
+  //   renderItem={({ item }) => (
+  //     <ListItem
+  //       title={item.fac_name}
+  //       subtitle={item.amount}
+  //       onPress={() => this.props.navigation.navigate('Resource', { id: item.idfacility })}
+  //     />
+  //   )}
+  // />
   render() {
     return (
       <ScrollableTabView renderTabBar={() => <ScrollableTabBar />}>
@@ -78,17 +89,6 @@ export default class Resources extends Component {
               size="large"
             />
           )}
-          <FlatList
-            data={this.state.dataset}
-            keyExtractor={item => item.idfacility}
-            renderItem={({ item }) => (
-              <ListItem
-                title={item.fac_name}
-                subtitle={item.amount}
-                onPress={() => this.props.navigation.navigate('Resource', { id: item.idfacility })}
-              />
-            )}
-          />
         </View>
         <Text tabLabel='工位'>favorite</Text>
         <Text tabLabel='会议室'>project</Text>
@@ -99,11 +99,3 @@ export default class Resources extends Component {
     );
   }
 }
-
-Resources.propTypes = {
-  navigation: PropTypes.shape({
-    routeName: PropTypes.string,
-    key: PropTypes.string,
-    navigate: PropTypes.func,
-  }).isRequired,
-};

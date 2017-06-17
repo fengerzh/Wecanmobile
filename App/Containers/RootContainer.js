@@ -9,6 +9,7 @@ import {
   setCustomImage,
   setCustomTouchableOpacity
 } from 'react-native-global-props';
+import { updateFocus } from 'react-navigation-is-focused-hoc';
 
 import Navigation from '../Navigation/AppNavigation'
 
@@ -26,7 +27,10 @@ setCustomText(customTextProps);
 class RootContainer extends Component {
   render () {
     return (
-      <Navigation />
+      <Navigation onNavigationStateChange={(prevState, currentState) => {
+        updateFocus(currentState)
+      }}
+      />
     )
   }
 }

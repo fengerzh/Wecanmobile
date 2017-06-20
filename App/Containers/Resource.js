@@ -8,6 +8,10 @@ import {
   WebView,
 } from 'react-native';
 import {
+  Container,
+  Content,
+} from 'native-base';
+import {
   Agenda,
   Calendar,
   LocaleConfig,
@@ -24,7 +28,7 @@ LocaleConfig.defaultLocale = 'cn';
 export default class Resource extends Component {
   state: {
     dataset: {
-      fac_name: string;
+      item_name: string;
     };
     isLoading: boolean;
   };
@@ -37,7 +41,7 @@ export default class Resource extends Component {
     super();
     this.state = {
       dataset: {
-        fac_name: '',
+        item_name: '',
       },
       isLoading: true,
     };
@@ -49,7 +53,7 @@ export default class Resource extends Component {
 
   async getData() {
     try {
-      const response = await fetch(`https://api.weinnovators.com/facilities/${this.props.navigation.state.params.id}`);
+      const response = await fetch(`https://api.weinnovators.com/facitems/${this.props.navigation.state.params.id}`);
       const responseJson = await response.json();
       this.setState({
         dataset: responseJson,
@@ -90,32 +94,34 @@ export default class Resource extends Component {
   // />
   render() {
     return (
-      <View>
-        <View style={{backgroundColor: '#FF0000', height: 100}}>
-          <Text>{this.state.dataset.fac_name}</Text>
-        </View>
-        <View style={{backgroundColor: '#00FF00', marginTop: 40, height: 350}}>
-          <Agenda
-            items={
-              {'2017-06-22': [{text: 'item 1 - any js object'}],
-               '2017-06-23': [{text: 'item 2 - any js object'}],
-               '2017-06-24': [],
-               '2017-06-25': [{text: 'item 3 - any js object'},{text: 'any js object'}],
-              }}
-            loadItemsForMonth={(mongh) => {console.log('trigger items loading')}}
-            onDayPress={(day)=>{console.log('day pressed')}}
-            onDayChange={(day)=>{console.log('day changed')}}
-            selected={'2017-06-16'}
-            renderItem={this.renderItem.bind(this)}
-            renderDay={(day, item) => {return (<View />);}}
-            renderEmptyDate={() => {return (<View />);}}
-            rowHasChanged={(r1, r2) => {return r1.text !== r2.text}}
-            hideKnob={false}
-            theme = {{}}
-            style = {{}}
-          />
-        </View>
-      </View>
+      <Container>
+        <Content>
+          <View style={{backgroundColor: '#FF0000', height: 100}}>
+            <Text>{this.state.dataset.item_name}</Text>
+          </View>
+          <View style={{backgroundColor: '#00FF00', marginTop: 40, height: 350}}>
+            <Agenda
+              items={
+                {'2017-06-22': [{text: 'item 1 - any js object'}],
+                 '2017-06-23': [{text: 'item 2 - any js object'}],
+                 '2017-06-24': [],
+                 '2017-06-25': [{text: 'item 3 - any js object'},{text: 'any js object'}],
+                }}
+              loadItemsForMonth={(mongh) => {console.log('trigger items loading')}}
+              onDayPress={(day)=>{console.log('day pressed')}}
+              onDayChange={(day)=>{console.log('day changed')}}
+              selected={'2017-06-16'}
+              renderItem={this.renderItem.bind(this)}
+              renderDay={(day, item) => {return (<View />);}}
+              renderEmptyDate={() => {return (<View />);}}
+              rowHasChanged={(r1, r2) => {return r1.text !== r2.text}}
+              hideKnob={false}
+              theme = {{}}
+              style = {{}}
+            />
+          </View>
+        </Content>
+      </Container>
     );
   }
 

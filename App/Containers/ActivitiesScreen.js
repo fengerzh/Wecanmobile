@@ -2,7 +2,6 @@
 
 import React, { PureComponent } from 'react';
 import {
-  ActivityIndicator,
   AsyncStorage,
   Dimensions,
   FlatList,
@@ -162,7 +161,7 @@ class ActivitiesScreen extends PureComponent {
                   <CardItem>
                     <Body>
                       <Text>{item.act_title.replace(/&ldquo;/g, '“').replace(/&rdquo;/g, '”')}</Text>
-                      <Text note>{Formatter(item.act_date, 'yyyy-mm-dd')}</Text>
+                      <Text note>{Formatter(item.act_date, 'yyyy-MM-dd')}</Text>
                       <Text note>{item.course_name}</Text>
                     </Body>
                   </CardItem>

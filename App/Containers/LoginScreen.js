@@ -9,7 +9,9 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
+import { connect } from 'react-redux';
 import t from 'tcomb-form-native';
+import LoginActions from '../Redux/LoginRedux';
 
 const Form = t.form.Form;
 const Person = t.struct({
@@ -56,12 +58,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class LoginScreen extends Component {
+class LoginScreen extends Component {
   state: {
     modalVisible: boolean,
   }
   form: any;
   userLogin: Function;
+  afterLogin: Function;
 
   constructor() {
     super();
@@ -69,8 +72,15 @@ export default class LoginScreen extends Component {
       modalVisible: true,
     };
     this.userLogin = this.userLogin.bind(this);
+    this.afterLogin = this.afterLogin.bind(this);
   }
 
+  // 登录状态发生变更，登录已成功
+  componentWillReceiveProps(nextProps) {
+    this.afterLogin(nextProps);
+  }
+
+  // 本地存储
   async onValueChange(item: string, selectedValue: string) {
     try {
       await AsyncStorage.setItem(item, selectedValue);
@@ -79,31 +89,45 @@ export default class LoginScreen extends Component {
     }
   }
 
+  // 用户点击登录按钮，开始登录
   async userLogin() {
     const value = this.form.getValue();
     if (value) {
-      const response = await fetch('https://api.weinnovators.com/gluseruser/login', {
-        method: 'POST',
-        body: `username=${value.username}&password=${value.password}`,
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      });
-      if (response.status === 401) {
-        // alert('错误');
-      } else {
-        const responseData = await response.json();
-        // 存储用户的token，以便将来调用时使用
-        this.onValueChange('id_token', responseData.id_token);
-        this.onValueChange('idgl_user', responseData.idgl_user.toString());
-        // 返回上一屏
-        await this.props.closeme();
-        // this.props.navigation.state.params.onGoBack();
-        // this.props.navigation.goBack();
-      }
+      this.props.attemptLogin(value.username, value.password);
+      // const response = await fetch('https://api.weinnovators.com/gluseruser/login', {
+      //   method: 'POST',
+      //   body: `username=${value.username}&password=${value.password}`,
+      //   headers: {
+      //     'Content-Type': 'application/x-www-form-urlencoded',
+      //   },
+      // });
+      // if (response.status === 401) {
+      //   // alert('错误');
+      // } else {
+      //   const responseData = await response.json();
+      //   // 存储用户的token，以便将来调用时使用
+      //   this.onValueChange('id_token', responseData.id_token);
+      //   this.onValueChange('idgl_user', responseData.idgl_user.toString());
+      //   this.onValueChange('wx_username', responseData.wx_username);
+      //   // 返回上一屏
+      //   await this.props.closeme();
+      //   // this.props.navigation.state.params.onGoBack();
+      //   // this.props.navigation.goBack();
+      // }
     }
   }
 
+  // 登录成功时的动作，关闭此窗口
+  async afterLogin(nextProps) {
+    // 存储用户的token，以便将来调用时使用
+    this.onValueChange('id_token', nextProps.login.id_token);
+    this.onValueChange('idgl_user', nextProps.login.idgl_user.toString());
+    this.onValueChange('wx_username', nextProps.login.wx_username);
+    // 返回上一屏
+    await this.props.closeme();
+  }
+
+  // 取消时的动作，直接关闭此屏幕，并返回活动首页
   async closeModal() {
     await this.props.navigation.navigate('Activities');
     await this.props.closeme();
@@ -146,3 +170,17 @@ export default class LoginScreen extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    login: state.login.login,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    attemptLogin: (username, password) => dispatch(LoginActions.loginRequest(username, password)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

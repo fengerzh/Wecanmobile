@@ -13,8 +13,8 @@ import {
 } from 'react-navigation';
 
 import sActivities from '../Containers/ActivitiesScreen';
-import sActivity from '../Containers/Activity';
-import sResources from '../Containers/Resources';
+import sActivity from '../Containers/ActivityScreen';
+import sResources from '../Containers/ResourcesScreen';
 import sResource from '../Containers/Resource';
 import sNewses from '../Containers/NewsesScreen';
 import sNews from '../Containers/News';
@@ -148,7 +148,7 @@ const AppNavigation = TabNavigator(
   {
     lazy: true,
     tabBarOptions: {
-      activeTintColor: '#e91e63',
+      activeTintColor: '#ae4928',
     },
   },
 );

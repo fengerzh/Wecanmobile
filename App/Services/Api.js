@@ -15,6 +15,7 @@ const create = (baseURL: string = 'https://api.weinnovators.com/') => {
   const getActivities = () => api.get('activities?corpid=wxd9ed6139adfa53ce');
   const getActivity = (id: string) => api.get('activities/' + id);
   const getActUsers = (id: string) => api.get('actusers?id=' + id);
+  const getResources = () => api.get('facitems');
   const getNewses = () => api.get('news');
   const setActUser = (token: string, id: string) => api.get('jwtactuser/create', {id}, {headers: {'Authorization': 'Bearer ' + token}});
   const deleteActUser = (token: string, id: string) => api.get('jwtactuser/delete', {id}, {headers: {'Authorization': 'Bearer ' + token}});
@@ -24,6 +25,7 @@ const create = (baseURL: string = 'https://api.weinnovators.com/') => {
     getActivities,
     getActivity,
     getActUsers,
+    getResources,
     getNewses,
     setActUser,
     deleteActUser,

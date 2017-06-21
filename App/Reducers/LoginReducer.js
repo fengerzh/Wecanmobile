@@ -1,16 +1,8 @@
 // @flow
 
-import { createReducer, createActions } from 'reduxsauce';
 import Immutable from 'seamless-immutable';
-
-const { Types, Creators } = createActions({
-  loginRequest: ['username', 'password'],
-  loginSuccess: ['login'],
-  loginFailure: null,
-});
-
-export const LoginTypes = Types;
-export default Creators;
+import { createReducer } from 'reduxsauce';
+import Types from '../Actions/Types';
 
 export const INITIAL_STATE = Immutable({
   login: null,
@@ -18,13 +10,13 @@ export const INITIAL_STATE = Immutable({
   error: null,
 });
 
-export const request = (state: any) => {
+const request = (state: any) => {
   return state.merge({
     fetching: true,
   });
 }
 
-export const success = (state: any, action: any) => {
+const success = (state: any, action: any) => {
   const { login } = action;
   return state.merge({
     fetching: false,
@@ -33,7 +25,7 @@ export const success = (state: any, action: any) => {
   });
 }
 
-export const failure = (state: any) => {
+const failure = (state: any) => {
   return state.merge({
     fetching: false,
     error: true,
@@ -41,8 +33,10 @@ export const failure = (state: any) => {
   });
 }
 
-export const reducer = createReducer(INITIAL_STATE, {
+const ACTION_HANDLERS = {
   [Types.LOGIN_REQUEST]: request,
   [Types.LOGIN_SUCCESS]: success,
   [Types.LOGIN_FAILURE]: failure
-});
+};
+
+export default createReducer(INITIAL_STATE, ACTION_HANDLERS);

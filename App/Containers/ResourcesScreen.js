@@ -9,6 +9,7 @@ import {
   View,
   TouchableHighlight,
 } from 'react-native';
+import { connect } from 'react-redux';
 import {
   Body,
   Card,
@@ -20,6 +21,8 @@ import {
 } from 'native-base';
 import ScrollableTabView, { ScrollableTabBar, }  from 'react-native-scrollable-tab-view';
 import _ from 'lodash';
+
+import Actions from '../Actions/Creators';
 
 class MyFlatList extends Component {
   render() {
@@ -50,10 +53,8 @@ class MyFlatList extends Component {
   }
 }
 
-export default class ResourcesScreen extends Component {
+class ResourcesScreen extends Component {
   state: {
-    dataset: Array<any>;
-    isLoading: boolean;
     key: number;
   };
 
@@ -64,40 +65,22 @@ export default class ResourcesScreen extends Component {
   constructor() {
     super();
     this.state = {
-      dataset: [],
-      isLoading: true,
       key: 0,
     };
   }
 
   componentWillMount() {
-    this.getResources();
-  }
-
-  async getResources() {
-    try {
-      const response = await fetch('https://api.weinnovators.com/facitems');
-      let result = 0;
-      const responseJson = await response.json();
-      this.setState({
-        dataset: responseJson,
-        isLoading: false,
-      });
-      result = 1;
-      return result;
-    } catch (error) {
-      return -1;
-    }
+    this.props.attemptGetResources();
   }
 
   render() {
     return (
       <Container>
           <ScrollableTabView renderTabBar={() => <ScrollableTabBar />}>
-            <MyFlatList navigation={this.props.navigation} tabLabel='独立办公空间' dataset={_.filter(this.state.dataset, { 'fac_id': 4 })} />
-            <MyFlatList navigation={this.props.navigation} tabLabel='工位' dataset={_.filter(this.state.dataset, { 'fac_id': 5 })} />
-            <MyFlatList navigation={this.props.navigation} tabLabel='会议室' dataset={_.filter(this.state.dataset, { 'fac_id': 7 })} />
-            <MyFlatList navigation={this.props.navigation} tabLabel='展台' dataset={_.filter(this.state.dataset, { 'fac_id': 2 })} />
+            <MyFlatList navigation={this.props.navigation} tabLabel='独立办公空间' dataset={_.filter(this.props.resources, { 'fac_id': 4 })} />
+            <MyFlatList navigation={this.props.navigation} tabLabel='工位' dataset={_.filter(this.props.resources, { 'fac_id': 5 })} />
+            <MyFlatList navigation={this.props.navigation} tabLabel='会议室' dataset={_.filter(this.props.resources, { 'fac_id': 7 })} />
+            <MyFlatList navigation={this.props.navigation} tabLabel='展台' dataset={_.filter(this.props.resources, { 'fac_id': 2 })} />
             <Text tabLabel='套件'>project</Text>
             <Text tabLabel='讲师'>project</Text>
           </ScrollableTabView>
@@ -105,3 +88,17 @@ export default class ResourcesScreen extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    resources: state.resources.resources,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    attemptGetResources: () => dispatch(Actions.resourcesRequest()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ResourcesScreen);

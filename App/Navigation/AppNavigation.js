@@ -19,7 +19,6 @@ import sResource from '../Containers/Resource';
 import sNewses from '../Containers/NewsesScreen';
 import sNews from '../Containers/News';
 import sMine from '../Containers/MineScreen';
-// import sLogin from '../Containers/Login';
 import iconActivities from '../icons/activities.png';
 import iconResources from '../icons/resources.png';
 import iconNews from '../icons/news.png';
@@ -152,13 +151,5 @@ const AppNavigation = TabNavigator(
     },
   },
 );
-
-// const AppNavigation = StackNavigator({
-//   MainTabNavigator: { screen: MainTabNavigator },
-//   Login: { screen: sLogin },
-// }, {
-//   headerMode: 'none',
-//   mode: 'modal',
-// });
 
 export default AppNavigation;

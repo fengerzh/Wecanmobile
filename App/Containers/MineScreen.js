@@ -7,6 +7,7 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
+import { connect } from 'react-redux';
 import {
   Body,
   Card,
@@ -24,7 +25,6 @@ import LoginScreen from './LoginScreen';
 
 class MineScreen extends Component {
   state: {
-    idglUser: string,
     showModal: boolean,
   }
   static navigationOptions = {
@@ -35,7 +35,6 @@ class MineScreen extends Component {
   constructor() {
     super();
     this.state = {
-      idglUser: '',
       showModal: false,
     };
     this.closeModal = this.closeModal.bind(this);
@@ -46,14 +45,9 @@ class MineScreen extends Component {
   }
 
   async getMine() {
-    const idglUser = await AsyncStorage.getItem('idgl_user');
-    if (idglUser === null) {
+    if (this.props.login == null) {
       // 如果本地没有存储用户信息，则错误，弹出登录页面
       this.setState({showModal: true});
-    } else {
-      this.setState({
-        idglUser,
-      });
     }
   }
 
@@ -74,9 +68,9 @@ class MineScreen extends Component {
           <Card style={{ flex: 0 }}>
             <CardItem>
               <Left>
-                <Thumbnail source={{uri: `https://img.weinnovators.com/wxavatars/${this.state.idglUser}.jpg`}} />
+                <Thumbnail source={{uri: `https://img.weinnovators.com/wxavatars/${this.props.login.idgl_user}.jpg`}} />
                 <Body>
-                  <Text>Name</Text>
+                  <Text>{this.props.login.wx_username}</Text>
                   <Text note>Other info</Text>
                 </Body>
               </Left>
@@ -147,4 +141,18 @@ class MineScreen extends Component {
   }
 }
 
-export default withNavigationFocus(MineScreen, 'Mine');
+const mapStateToProps = (state) => {
+  return {
+    login: state.login.login,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    // attemptLogin: (username, password) => dispatch(Actions.loginRequest(username, password)),
+  }
+}
+
+// export default withNavigationFocus(MineScreen, 'Mine');
+// export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(withNavigationFocus(MineScreen, 'Mine'));

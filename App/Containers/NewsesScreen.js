@@ -24,7 +24,7 @@ import {
   Body
 } from 'native-base';
 
-import NewsesActions from '../Redux/NewsesRedux';
+import Actions from '../Actions/Creators';
 
 class NewsesScreen extends Component {
   state: {
@@ -82,7 +82,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    attemptGetNewses: () => dispatch(NewsesActions.newsesRequest()),
+    attemptGetNewses: () => dispatch(Actions.newsesRequest()),
   }
 }
 

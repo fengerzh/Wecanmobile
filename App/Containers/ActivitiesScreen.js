@@ -24,7 +24,7 @@ import {
   Body
 } from 'native-base';
 import Formatter from 'chinese-datetime-formatter';
-import ActivitiesActions from '../Redux/ActivitiesRedux';
+import Actions from '../Actions/Creators';
 
 class ActivitiesScreen extends PureComponent {
   state: {
@@ -51,7 +51,14 @@ class ActivitiesScreen extends PureComponent {
   }
 
   componentWillMount() {
+    // this.clearStorage();
     this.props.attemptGetActivities();
+  }
+
+  async clearStorage() {
+    await AsyncStorage.clear((err)=> {
+      // alert(JSON.stringify(err));
+    });
   }
 
   async getActivities() {
@@ -183,7 +190,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    attemptGetActivities: () => dispatch(ActivitiesActions.activitiesRequest()),
+    attemptGetActivities: () => dispatch(Actions.activitiesRequest()),
   }
 }
 

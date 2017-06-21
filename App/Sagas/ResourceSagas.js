@@ -4,20 +4,20 @@ import { path } from 'ramda';
 import Types from '../Actions/Types';
 import Actions from '../Actions/Creators';
 
-export function getNewses(api) {
+export function getResources(api) {
   function * worker() {
-    const response = yield call(api.getNewses);
+    const response = yield call(api.getResources);
 
     if (response.ok) {
-      yield put(Actions.newsesSuccess(path(['data'], response)));
+      yield put(Actions.resourcesSuccess(path(['data'], response)));
     } else {
-      yield put(Actions.newsesFailure());
+      yield put(Actions.resourcesFailure());
     }
   }
 
   function * watcher() {
     while (true) {
-      yield take(Types.NEWSES_REQUEST);
+      yield take(Types.RESOURCES_REQUEST);
       yield call(worker);
     }
   }

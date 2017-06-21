@@ -29,7 +29,7 @@ import {
 } from 'react-navigation';
 import * as WeChat from 'react-native-wechat';
 
-import ActivityActions from '../Redux/ActivityRedux';
+import Actions from '../Actions/Creators';
 import LoginScreen from './LoginScreen';
 
 class ActivityScreen extends Component {
@@ -67,12 +67,10 @@ class ActivityScreen extends Component {
   }
 
   async getActivity() {
-    const idglUser = await AsyncStorage.getItem('idgl_user');
-    const wx_username = await AsyncStorage.getItem('wx_username');
-    if (idglUser === null) {
+    if (this.props.login == null) {
       this.props.attemptGetActivity(this.props.navigation.state.params.act_id, 0, '');
     } else {
-      this.props.attemptGetActivity(this.props.navigation.state.params.act_id, parseInt(idglUser, 10), wx_username);
+      this.props.attemptGetActivity(this.props.navigation.state.params.act_id, this.props.login.idgl_user, this.props.login.wx_username);
     }
   }
 
@@ -106,14 +104,12 @@ class ActivityScreen extends Component {
     this.props.navigation.dispatch(setParamsAction);
   }
 
-  async setActUser(act_id, direction) {
-    const token = await AsyncStorage.getItem('id_token');
-    if (token === null) {
+  setActUser(act_id, direction) {
+    if (this.props.login == null) {
       // 如果本地没有存储用户信息，则错误，弹出登录页面
       this.setState({showModal: true});
     } else {
-      // 此处比较笨拙，以后似可考虑改从redux storage中获取token
-      this.props.attemptSetActUser(token, act_id, direction);
+      this.props.attemptSetActUser(this.props.login.id_token, act_id, direction);
     }
   }
 
@@ -190,6 +186,7 @@ class ActivityScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    login: state.login.login,
     activity: state.activity.activity,
     actusers: state.activity.actusers,
     hasme: state.activity.hasme,
@@ -198,8 +195,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    attemptGetActivity: (id, user_id, wx_username) => dispatch(ActivityActions.activityRequest(id, user_id, wx_username)),
-    attemptSetActUser: (token, id, direction) => dispatch(ActivityActions.setActUserRequest(token, id, direction)),
+    attemptGetActivity: (id, user_id, wx_username) => dispatch(Actions.activityRequest(id, user_id, wx_username)),
+    attemptSetActUser: (token, id, direction) => dispatch(Actions.setActUserRequest(token, id, direction)),
   }
 }
 

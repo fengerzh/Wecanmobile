@@ -1,17 +1,14 @@
-import { all, takeLatest } from 'redux-saga/effects';
+import { fork } from 'redux-saga/effects';
 
 import API from '../Services/Api';
 import DebugConfig from '../Config/DebugConfig';
 
-import { LoginTypes } from '../Redux/LoginRedux';
-import { ActivitiesTypes } from '../Redux/ActivitiesRedux';
-import { ActivityTypes } from '../Redux/ActivityRedux';
-import { NewsesTypes } from '../Redux/NewsesRedux';
-
+import { watchStartup } from './StartupSaga';
 import {
   getActivities,
   getActivity,
 } from './ActivitySagas';
+import { getResources } from './ResourceSagas';
 import { getNewses } from './NewsSagas';
 import { setActUser } from './ActUserSagas';
 import { login } from './LoginSagas';
@@ -20,11 +17,11 @@ import { login } from './LoginSagas';
 const api = DebugConfig.useFixtures ? FixtureAPI : API.create();
 
 export default function * root () {
-  yield all([
-    takeLatest(LoginTypes.LOGIN_REQUEST, login, api),
-    takeLatest(ActivitiesTypes.ACTIVITIES_REQUEST, getActivities, api),
-    takeLatest(ActivityTypes.ACTIVITY_REQUEST, getActivity, api),
-    takeLatest(ActivityTypes.SET_ACT_USER_REQUEST, setActUser, api),
-    takeLatest(NewsesTypes.NEWSES_REQUEST, getNewses, api),
-  ]);
+  yield fork(watchStartup);
+  yield fork(login(api).watcher);
+  yield fork(getActivities(api).watcher);
+  yield fork(getActivity(api).watcher);
+  yield fork(setActUser(api).watcher);
+  yield fork(getResources(api).watcher);
+  yield fork(getNewses(api).watcher);
 };

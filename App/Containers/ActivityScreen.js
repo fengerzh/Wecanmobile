@@ -2,9 +2,7 @@
 
 import React, { Component } from 'react';
 import {
-  AsyncStorage,
   Image,
-  ScrollView,
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -17,16 +15,11 @@ import {
   Content,
   Footer,
   FooterTab,
-  List,
-  ListItem,
   Text,
   Thumbnail,
 } from 'native-base';
 import HTMLView from 'react-native-htmlview';
 import Formatter from 'chinese-datetime-formatter';
-import {
-  NavigationActions,
-} from 'react-navigation';
 import * as WeChat from 'react-native-wechat';
 
 import Actions from '../Actions/Creators';
@@ -66,21 +59,12 @@ class ActivityScreen extends Component {
     this.closeModal = this.closeModal.bind(this);
   }
 
-  async getActivity() {
-    if (this.props.login == null) {
-      this.props.attemptGetActivity(this.props.navigation.state.params.act_id, 0, '');
-    } else {
-      this.props.attemptGetActivity(this.props.navigation.state.params.act_id, this.props.login.idgl_user, this.props.login.wx_username);
-    }
+  async getActivity(act_id: any) {
+    this.props.attemptGetActivity(act_id);
   }
 
   componentWillMount() {
-    const setParamsAction = NavigationActions.setParams({
-      params: { hideTabBar: true },
-      key: 'Activities',
-    });
-    this.props.navigation.dispatch(setParamsAction);
-    this.getActivity();
+    this.getActivity(this.props.navigation.state.params.act_id);
 
     // 检查微信是否已安装
     // WeChat.isWXAppInstalled().then(() => {
@@ -96,20 +80,12 @@ class ActivityScreen extends Component {
     // });
   }
 
-  componentWillUnmount() {
-    const setParamsAction = NavigationActions.setParams({
-      params: { hideTabBar: false },
-      key: 'Activities',
-    });
-    this.props.navigation.dispatch(setParamsAction);
-  }
-
   setActUser(act_id, direction) {
     if (this.props.login == null) {
       // 如果本地没有存储用户信息，则错误，弹出登录页面
       this.setState({showModal: true});
     } else {
-      this.props.attemptSetActUser(this.props.login.id_token, act_id, direction);
+      this.props.attemptSetActUser(act_id, direction);
     }
   }
 
@@ -195,8 +171,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    attemptGetActivity: (id, user_id, wx_username) => dispatch(Actions.activityRequest(id, user_id, wx_username)),
-    attemptSetActUser: (token, id, direction) => dispatch(Actions.setActUserRequest(token, id, direction)),
+    attemptGetActivity: (id) => dispatch(Actions.activityRequest(id)),
+    attemptSetActUser: (id, direction) => dispatch(Actions.setActUserRequest(id, direction)),
   }
 }
 

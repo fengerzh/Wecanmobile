@@ -27,28 +27,30 @@ import Actions from '../Actions/Creators';
 class MyFlatList extends Component {
   render() {
     return (
-      <FlatList
-        data={this.props.dataset}
-        keyExtractor={item => item.idfac_item}
-        renderItem={({ item }) => (
-          <TouchableHighlight onPress={() => this.props.navigation.navigate('Resource', { id: item.idfac_item })}>
-            <Card style={{ flex: 0 }}>
-              <CardItem cardBody>
-                <Image
-                  style={{ resizeMode: 'cover', width: null, height: 150, flex: 1 }}
-                  source={{uri: !item.item_cover ? 'https://img.weinnovators.com/facitemcovers/1.jpg' : `https://img.weinnovators.com/facitemcovers/${item.item_cover}`}}
-                />
-              </CardItem>
-              <CardItem>
-                <Body>
-                  <Text>{item.item_name.replace(/&ldquo;/g, '“').replace(/&rdquo;/g, '”')}</Text>
-                  <Text note>面积：{item.area}平方米</Text>
-                </Body>
-              </CardItem>
-            </Card>
-          </TouchableHighlight>
-        )}
-      />
+      <Content padder>
+        <FlatList
+          data={this.props.dataset}
+          keyExtractor={item => item.idfac_item}
+          renderItem={({ item }) => (
+            <TouchableHighlight onPress={() => this.props.navigation.navigate('Resource', { id: item.idfac_item })}>
+              <Card style={{ flex: 0 }}>
+                <CardItem cardBody>
+                  <Image
+                    style={{ resizeMode: 'cover', width: null, height: 150, flex: 1 }}
+                    source={{uri: !item.item_cover ? 'https://img.weinnovators.com/facitemcovers/1.jpg' : `https://img.weinnovators.com/facitemcovers/${item.item_cover}`}}
+                  />
+                </CardItem>
+                <CardItem>
+                  <Body>
+                    <Text>{item.item_name.replace(/&ldquo;/g, '“').replace(/&rdquo;/g, '”')}</Text>
+                    <Text note>面积：{item.area}平方米</Text>
+                  </Body>
+                </CardItem>
+              </Card>
+            </TouchableHighlight>
+          )}
+        />
+      </Content>
     );
   }
 }
@@ -81,7 +83,7 @@ class ResourcesScreen extends Component {
             <MyFlatList navigation={this.props.navigation} tabLabel='工位' dataset={_.filter(this.props.resources, { 'fac_id': 5 })} />
             <MyFlatList navigation={this.props.navigation} tabLabel='会议室' dataset={_.filter(this.props.resources, { 'fac_id': 7 })} />
             <MyFlatList navigation={this.props.navigation} tabLabel='展台' dataset={_.filter(this.props.resources, { 'fac_id': 2 })} />
-            <Text tabLabel='套件'>project</Text>
+            <MyFlatList navigation={this.props.navigation} tabLabel='套件' dataset={_.filter(this.props.resources, { 'fac_id': 2 })} />
             <Text tabLabel='讲师'>project</Text>
           </ScrollableTabView>
       </Container>

@@ -2,7 +2,8 @@
 
 import apisauce from 'apisauce';
 
-const create = (baseURL: string = 'https://api.weinnovators.com/') => {
+// 公开接口，不需认证即可调用
+const publicAPI = (baseURL: string = 'https://api.weinnovators.com/') => {
   const api = apisauce.create({
     baseURL,
     headers: {
@@ -17,8 +18,6 @@ const create = (baseURL: string = 'https://api.weinnovators.com/') => {
   const getActUsers = (id: string) => api.get('actusers?id=' + id);
   const getResources = () => api.get('facitems');
   const getNewses = () => api.get('news');
-  const setActUser = (token: string, id: string) => api.get('jwtactuser/create', {id}, {headers: {'Authorization': 'Bearer ' + token}});
-  const deleteActUser = (token: string, id: string) => api.get('jwtactuser/delete', {id}, {headers: {'Authorization': 'Bearer ' + token}});
   const login = (username: string, password: string) => api.post('gluseruser/login', 'username=' + username + '&password=' + password, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
 
   return {
@@ -27,12 +26,42 @@ const create = (baseURL: string = 'https://api.weinnovators.com/') => {
     getActUsers,
     getResources,
     getNewses,
-    setActUser,
-    deleteActUser,
     login,
   }
 };
 
+// 调用以下接口时要求用户必须已登录
+const privateAPI = (baseURL: string = 'https://jwt.weinnovators.com/') => {
+  let api;
+
+  const setToken = (token: string) => {
+    api = apisauce.create({
+      baseURL,
+      headers: {
+        'Cache-Control': 'no-cache',
+        'Authorization': `Bearer ${token}`,
+      },
+      timeout: 10000,
+    });
+    return '';
+  }
+  const getProjectsByUser = () => api.get('aproject/index');
+  const getActUsersByUser = () => api.get('actuser/index');
+  const getActivitiesByUser = () => api.get('activity/index');
+  const setActUser = (id: string) => api.get('actuser/create', {id});
+  const deleteActUser = (id: string) => api.get('actuser/delete', {id});
+
+  return {
+    setToken,
+    getProjectsByUser,
+    getActUsersByUser,
+    getActivitiesByUser,
+    setActUser,
+    deleteActUser,
+  }
+};
+
 export default {
-  create,
+  publicAPI,
+  privateAPI,
 };

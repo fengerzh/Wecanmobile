@@ -2,28 +2,24 @@
 
 import React, { PureComponent } from 'react';
 import {
-  AsyncStorage,
   Dimensions,
   FlatList,
   Image,
   TouchableHighlight,
-  View,
 } from 'react-native';
 import { connect } from 'react-redux';
 import {
+  Body,
   Card,
   CardItem,
   Container,
   Content,
   Spinner,
-  Thumbnail,
   Text,
-  Button,
-  Icon,
-  Left,
-  Body
 } from 'native-base';
+import { withNavigationFocus } from 'react-navigation-is-focused-hoc';
 import Formatter from 'chinese-datetime-formatter';
+
 import Actions from '../Actions/Creators';
 
 class ActivitiesScreen extends PureComponent {
@@ -34,6 +30,7 @@ class ActivitiesScreen extends PureComponent {
     imageContainerHeight: number;
   };
   onLayout: Function;
+  setStatus: Function;
 
   static navigationOptions = {
     title: '所有活动',
@@ -51,92 +48,16 @@ class ActivitiesScreen extends PureComponent {
   }
 
   componentWillMount() {
-    // this.clearStorage();
     this.props.attemptGetActivities();
-  }
-
-  async clearStorage() {
-    await AsyncStorage.clear((err)=> {
-      // alert(JSON.stringify(err));
-    });
-  }
-
-  async getActivities() {
-    // 调用公开接口获取数据
-    const response = await fetch('https://api.weinnovators.com/activities?corpid=wxd9ed6139adfa53ce');
-    const responseJson = await response.json();
-    this.setState({
-      dsActivities: responseJson,
-      isLoading: false,
-    });
-    return 1;
-
-    // 调用私密接口
-    // await AsyncStorage.removeItem('id_token');
-    // try {
-    //   const DEMO_TOKEN = await AsyncStorage.getItem('id_token');
-    //   if (DEMO_TOKEN === null) {
-    //     // 如果本地没有存储用户信息，则错误，跳转到登录页面
-    //     this.props.navigation.navigate('Login', {
-    //       onGoBack: () => this.refresh(),
-    //     });
-    //     return -3;
-    //   }
-    //   const response = await fetch('https://api.weinnovators.com/jwtactivity/index?corp_id=wxd9ed6139adfa53ce&start=0', {
-    //     method: 'GET',
-    //     headers: {
-    //       Authorization: `Bearer ${DEMO_TOKEN}`,
-    //     },
-    //   });
-    //   let result = 0;
-    //   if (response.status === 401) {
-    //     // 返回状态401说明未登录
-    //     this.setState({
-    //       dsActivities: [{ act_title: '未登录' }],
-    //       isLoading: false,
-    //     });
-    //     result = -2;
-    //   } else {
-    //     const responseJson = await response.json();
-    //     this.setState({
-    //       dsActivities: responseJson,
-    //       isLoading: false,
-    //     });
-    //     result = 1;
-    //     await AsyncStorage.setItem('activities', JSON.stringify(responseJson));
-    //   }
-    //   return result;
-    // } catch (error) {
-    //   return -1;
-    // }
-  }
-
-  renderSeparator() {
-    return (
-      <View
-        style={{
-          height: 1,
-          width: "86%",
-          backgroundColor: "#CED0CE",
-          marginLeft: "14%"
-        }}
-      />
-    );
-  };
-
-  refresh() {
-    this.getActivities();
   }
 
   onLayout(e) {
     if (Dimensions.get('window').width > Dimensions.get('window').height) {
       this.setState({
-        // width: Dimensions.get('window').width,
         imageContainerHeight: 300,
       });
     } else {
       this.setState({
-        // width: Dimensions.get('window').width,
         imageContainerHeight: 150,
       });
     }
@@ -144,7 +65,6 @@ class ActivitiesScreen extends PureComponent {
 
   render() {
     const { activities, fetching } = this.props;
-    const logo = require('../Images/logo.png');
 
     return (
       <Container>
@@ -185,6 +105,7 @@ class ActivitiesScreen extends PureComponent {
 const mapStateToProps = (state) => {
   return {
     activities: state.activities.activities,
+    cancelClicked: state.login.cancelClicked,
   }
 }
 
@@ -194,4 +115,5 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ActivitiesScreen);
+// export default connect(mapStateToProps, mapDispatchToProps)(ActivitiesScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(withNavigationFocus(ActivitiesScreen, 'Activities'));

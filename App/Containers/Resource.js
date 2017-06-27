@@ -2,14 +2,18 @@
 
 import React, { Component } from 'react';
 import {
-  StyleSheet,
-  Text,
+  Image,
   View,
-  WebView,
 } from 'react-native';
 import {
+  Button,
+  Card,
+  CardItem,
   Container,
   Content,
+  Footer,
+  FooterTab,
+  Text,
 } from 'native-base';
 import {
   Agenda,
@@ -29,6 +33,7 @@ export default class Resource extends Component {
   state: {
     dataset: {
       item_name: string;
+      item_cover: string;
     };
     isLoading: boolean;
   };
@@ -42,6 +47,7 @@ export default class Resource extends Component {
     this.state = {
       dataset: {
         item_name: '',
+        item_cover: '',
       },
       isLoading: true,
     };
@@ -63,6 +69,11 @@ export default class Resource extends Component {
     } catch (error) {
       return -1;
     }
+  }
+
+  setFacProj()
+  {
+    alert('hhh');
   }
 
   // <Calendar
@@ -93,57 +104,62 @@ export default class Resource extends Component {
   //   }}
   // />
   render() {
+    const item = this.state.dataset;
+
     return (
       <Container>
-        <Content>
-          <View style={{backgroundColor: '#FF0000', height: 100}}>
-            <Text>{this.state.dataset.item_name}</Text>
-          </View>
-          <View style={{backgroundColor: '#00FF00', marginTop: 40, height: 350}}>
-            <Agenda
-              items={
-                {'2017-06-22': [{text: 'item 1 - any js object'}],
-                 '2017-06-23': [{text: 'item 2 - any js object'}],
-                 '2017-06-24': [],
-                 '2017-06-25': [{text: 'item 3 - any js object'},{text: 'any js object'}],
-                }}
-              loadItemsForMonth={(mongh) => {console.log('trigger items loading')}}
-              onDayPress={(day)=>{console.log('day pressed')}}
-              onDayChange={(day)=>{console.log('day changed')}}
-              selected={'2017-06-16'}
-              renderItem={this.renderItem.bind(this)}
-              renderDay={(day, item) => {return (<View />);}}
-              renderEmptyDate={() => {return (<View />);}}
-              rowHasChanged={(r1, r2) => {return r1.text !== r2.text}}
-              hideKnob={false}
-              theme = {{}}
-              style = {{}}
-            />
-          </View>
+        <Content padder>
+          <Card>
+            <CardItem>
+              <Image
+                style={{ resizeMode: 'cover', width: null, height: 150, flex: 1 }}
+                source={{uri: !item.item_cover ? 'https://img.weinnovators.com/facitemcovers/1.jpg' : `https://img.weinnovators.com/facitemcovers/${item.item_cover}`}}
+              />
+            </CardItem>
+            <CardItem>
+              <Text>{item.item_name}</Text>
+            </CardItem>
+          </Card>
+          <Card>
+            <CardItem>
+              <Agenda
+                items={
+                  {'2017-06-22': [{text: 'item 1 - any js object'}],
+                   '2017-06-23': [{text: 'item 2 - any js object'}],
+                   '2017-06-24': [],
+                   '2017-06-25': [{text: 'item 3 - any js object'},{text: 'any js object'}],
+                  }}
+                loadItemsForMonth={(mongh) => {console.log('trigger items loading')}}
+                onDayPress={(day)=>{console.log('day pressed')}}
+                onDayChange={(day)=>{console.log('day changed')}}
+                selected={'2017-06-16'}
+                renderItem={this.renderItem.bind(this)}
+                renderDay={(day, item) => {return (<View />);}}
+                renderEmptyDate={() => {return (<View />);}}
+                rowHasChanged={(r1, r2) => {return r1.text !== r2.text}}
+                hideKnob={false}
+                theme = {{}}
+                style = {{}}
+              />
+            </CardItem>
+          </Card>
         </Content>
+        <Footer>
+          <FooterTab>
+            <Button full success onPress={() => this.setFacProj()}>
+              <Text style={{color: '#FFFFFF'}}>预约资源</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
       </Container>
     );
   }
 
   renderItem(item: any) {
     return (
-      <View style={[styles.item, {height: 50}]}><Text>{item.text}</Text></View>
+      <CardItem>
+        <Text>{item.text}</Text>
+      </CardItem>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  item: {
-    backgroundColor: 'white',
-    flex: 1,
-    borderRadius: 5,
-    padding: 10,
-    marginRight: 10,
-    marginTop: 5
-  },
-  emptyDate: {
-    height: 15,
-    flex:1,
-    paddingTop: 30
-  }
-});

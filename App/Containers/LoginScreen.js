@@ -59,45 +59,31 @@ const styles = StyleSheet.create({
 });
 
 class LoginScreen extends Component {
-  state: {
-    modalVisible: boolean,
-  }
   form: any;
   userLogin: Function;
-  afterLogin: Function;
+  closeModal: Function;
 
   constructor() {
     super();
-    this.state = {
-      modalVisible: true,
-    };
     this.userLogin = this.userLogin.bind(this);
-    this.afterLogin = this.afterLogin.bind(this);
-  }
-
-  // 登录状态发生变更，登录已成功
-  componentWillReceiveProps(nextProps) {
-    this.afterLogin(nextProps);
+    this.closeModal = this.closeModal.bind(this);
   }
 
   // 用户点击登录按钮，开始登录
-  async userLogin() {
+  userLogin() {
     const value = this.form.getValue();
     if (value) {
       this.props.attemptLogin(value.username, value.password);
     }
   }
 
-  // 登录成功时的动作，关闭此窗口
-  async afterLogin(nextProps) {
-    // 返回上一屏
-    await this.props.closeme();
-  }
-
   // 取消时的动作，直接关闭此屏幕，并返回活动首页
   async closeModal() {
-    await this.props.navigation.navigate('Activities');
-    await this.props.closeme();
+    if (this.props.closeme) {
+      this.props.closeme();
+    } else {
+      await this.props.navigation.navigate('Activities');
+    }
   }
 
   render() {
@@ -105,7 +91,7 @@ class LoginScreen extends Component {
       <Modal
         animationType={"none"}
         transparent={false}
-        visible={this.props.visible}
+        visible={!this.props.login}
         onRequestClose={() => {alert("Modal has been closed.")}}>
         <View style={styles.container}>
           <View style={styles.row}>

@@ -1,9 +1,9 @@
 // @flow
 
 import React, { Component } from 'react';
+import styled from 'styled-components/native';
 import {
-  AsyncStorage,
-  Modal,
+  Image,
   TouchableHighlight,
   View,
 } from 'react-native';
@@ -20,57 +20,48 @@ import {
   Thumbnail,
 } from 'native-base';
 import { withNavigationFocus } from 'react-navigation-is-focused-hoc';
+import _ from 'lodash';
 
+import Actions from '../Actions/Creators';
 import LoginScreen from './LoginScreen';
 
+const TextNumber = styled.Text`
+  fontSize: 24;
+  textAlign: center;
+`;
+
+const TextLabel = styled.Text`
+  color: #999999;
+  fontSize: 12;
+  textAlign: center;
+`;
+
 class MineScreen extends Component {
-  state: {
-    showModal: boolean,
-  }
-  static navigationOptions = {
-    title: '我的',
-  };
-  closeModal: Function;
-
-  constructor() {
-    super();
-    this.state = {
-      showModal: false,
-    };
-    this.closeModal = this.closeModal.bind(this);
-  }
-
-  refresh() {
-    this.getMine();
-  }
-
-  async getMine() {
-    if (this.props.login == null) {
-      // 如果本地没有存储用户信息，则错误，弹出登录页面
-      this.setState({showModal: true});
+  componentWillMount() {
+    if (this.props.login) {
+      this.props.attemptGetMine();
     }
-  }
-
-  closeModal() {
-    this.setState({showModal: false});
   }
 
   render() {
     if (this.props.isFocused) {
-      if (!this.state.showModal) {
-        this.getMine();
+      if (!this.props.login) {
+        return (<LoginScreen navigation={this.props.navigation} visible={true} />);
       }
     }
+
+    // 按照活动状态统计活动个数
+    const actCount = _.countBy(this.props.activities, 'status');
+
     return (
       <Container>
         <Content padder>
-          {this.state.showModal && (<LoginScreen navigation={this.props.navigation} visible={this.state.showModal} closeme={this.closeModal} />)}
           <Card style={{ flex: 0 }}>
             <CardItem>
               <Left>
-                <Thumbnail source={{uri: `https://img.weinnovators.com/wxavatars/${this.props.login.idgl_user}.jpg`}} />
+                <Thumbnail source={{uri: this.props.login ? `https://img.weinnovators.com/wxavatars/${this.props.login.idgl_user}.jpg` : ''}} />
                 <Body>
-                  <Text>{this.props.login.wx_username}</Text>
+                  <Text>{this.props.login ? this.props.login.wx_username : ''}</Text>
                   <Text note>Other info</Text>
                 </Body>
               </Left>
@@ -82,22 +73,12 @@ class MineScreen extends Component {
             </CardItem>
             <CardItem>
               <Body style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
+              {this.props.projects.map(item =>
                 <View>
-                  <Icon name="logo-apple" style={{ width: 45, height: 45, justifyContent: 'center' }} />
-                  <Text>项目1</Text>
+                  <Image source={{uri: item.pro_logo ? `https://img.weinnovators.com/prologos/${item.pro_logo}` : 'https://wx.weinnovators.com/images/project-logo.jpg'}} style={{ width: 45, height: 45 }}/>
+                  <Text style={{textAlign: 'center'}}>{item.pro_name}</Text>
                 </View>
-                <View>
-                  <Icon name="logo-apple" style={{ width: 45, height: 45, justifyContent: 'center' }} />
-                  <Text>项目1</Text>
-                </View>
-                <View>
-                  <Icon name="logo-apple" style={{ width: 45, height: 45, justifyContent: 'center' }} />
-                  <Text>项目1</Text>
-                </View>
-                <View>
-                  <Icon name="logo-apple" style={{ width: 45, height: 45, justifyContent: 'center' }} />
-                  <Text>项目1</Text>
-                </View>
+              )}
               </Body>
             </CardItem>
           </Card>
@@ -107,31 +88,63 @@ class MineScreen extends Component {
             </CardItem>
             <CardItem>
               <Body style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
-                <View>
-                  <Icon name="logo-apple" style={{ width: 45, height: 45, justifyContent: 'center' }} />
-                  <Text>已批准预约</Text>
-                </View>
-                <View>
-                  <Icon name="logo-apple" style={{ width: 45, height: 45, justifyContent: 'center' }} />
-                  <Text>待批准预约</Text>
-                </View>
-                <View>
-                  <Icon name="logo-apple" style={{ width: 45, height: 45, justifyContent: 'center' }} />
-                  <Text>已完成预约</Text>
-                </View>
-                <View>
-                  <Icon name="logo-apple" style={{ width: 45, height: 45, justifyContent: 'center' }} />
-                  <Text>被拒绝预约</Text>
-                </View>
+                <TouchableHighlight onPress={() => this.props.navigation.navigate('MyActivities', { status: 0 })}>
+                  <View>
+                    <TextNumber>{actCount['0'] ? actCount['0'] : 0}</TextNumber>
+                    <TextLabel>待批准</TextLabel>
+                  </View>
+                </TouchableHighlight>
+                <TouchableHighlight onPress={() => this.props.navigation.navigate('MyActivities', { status: 1 })}>
+                  <View>
+                    <TextNumber>{actCount['1'] ? actCount['1'] : 0}</TextNumber>
+                    <TextLabel>待参与</TextLabel>
+                  </View>
+                </TouchableHighlight>
+                <TouchableHighlight onPress={() => this.props.navigation.navigate('MyActivities', { status: 2 })}>
+                  <View>
+                    <TextNumber>{actCount['2'] ? actCount['2'] : 0}</TextNumber>
+                    <TextLabel>被拒绝</TextLabel>
+                  </View>
+                </TouchableHighlight>
+                <TouchableHighlight onPress={() => this.props.navigation.navigate('MyActivities', { status: 99 })}>
+                  <View>
+                    <TextNumber>{actCount['99'] ? actCount['99'] : 0}</TextNumber>
+                    <TextLabel>已完成</TextLabel>
+                  </View>
+                </TouchableHighlight>
               </Body>
             </CardItem>
           </Card>
           <Card>
+            <CardItem header>
+              <Text>我的活动</Text>
+            </CardItem>
             <CardItem>
-              <Body>
-                <Text>
-                  我的活动
-                </Text>
+              <Body style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
+                <TouchableHighlight onPress={() => this.props.navigation.navigate('MyActivities', { status: 0 })}>
+                  <View>
+                    <TextNumber>{actCount['0'] ? actCount['0'] : 0}</TextNumber>
+                    <TextLabel>待批准</TextLabel>
+                  </View>
+                </TouchableHighlight>
+                <TouchableHighlight onPress={() => this.props.navigation.navigate('MyActivities', { status: 1 })}>
+                  <View>
+                    <TextNumber>{actCount['1'] ? actCount['1'] : 0}</TextNumber>
+                    <TextLabel>待参与</TextLabel>
+                  </View>
+                </TouchableHighlight>
+                <TouchableHighlight onPress={() => this.props.navigation.navigate('MyActivities', { status: 2 })}>
+                  <View>
+                    <TextNumber>{actCount['2'] ? actCount['2'] : 0}</TextNumber>
+                    <TextLabel>被拒绝</TextLabel>
+                  </View>
+                </TouchableHighlight>
+                <TouchableHighlight onPress={() => this.props.navigation.navigate('MyActivities', { status: 99 })}>
+                  <View>
+                    <TextNumber>{actCount['99'] ? actCount['99'] : 0}</TextNumber>
+                    <TextLabel>已完成</TextLabel>
+                  </View>
+                </TouchableHighlight>
               </Body>
             </CardItem>
           </Card>
@@ -144,15 +157,15 @@ class MineScreen extends Component {
 const mapStateToProps = (state) => {
   return {
     login: state.login.login,
+    projects: state.mine.projects,
+    activities: state.mine.activities,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // attemptLogin: (username, password) => dispatch(Actions.loginRequest(username, password)),
+    attemptGetMine: () => dispatch(Actions.mineRequest()),
   }
 }
 
-// export default withNavigationFocus(MineScreen, 'Mine');
-// export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
 export default connect(mapStateToProps, mapDispatchToProps)(withNavigationFocus(MineScreen, 'Mine'));

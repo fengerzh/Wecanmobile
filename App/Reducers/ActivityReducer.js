@@ -19,8 +19,6 @@ export const INITIAL_STATE = Immutable({
   fetching: true,
   error: null,
   hasme: false,
-  user_id: 0,
-  wx_username: '',
 });
 
 const request = (state: any, action: any) => {
@@ -57,24 +55,9 @@ const requestSetActUser = (state: any) => {
 }
 
 const successSetActUser = (state: any, action: any) => {
-  let actusers;
-  if (state.hasme) {
-    // 从用户列表中删除我自己
-    // alert(state.user_id);
-    actusers = _.filter(state.actusers, function(o) { return o.user_id != state.user_id; });
-  } else {
-    // 把我自己添加到用户列表中
-    actusers = _.clone(state.actusers);
-    actusers.push({
-      act_id: state.activity.act_id,
-      user_id: state.user_id,
-      wx_username: state.wx_username,
-      avatar: 'something',
-    });
-  }
   return state.merge({
     hasme: !state.hasme,
-    actusers,
+    actusers: action.actusers,
   });
 }
 

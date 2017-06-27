@@ -6,12 +6,16 @@ import Types from '../Actions/Types';
 import Actions from '../Actions/Creators';
 
 // 登录
-export function login(api) {
+export function login(publicAPI, privateAPI) {
   function * worker(username, password) {
-    const response = yield call(api.login, username, password);
+    const response = yield call(publicAPI.login, username, password);
 
     if (response.ok) {
-      yield put(Actions.loginSuccess(path(['data'], response)));
+      const result = path(['data'], response);
+      yield all([
+        put(Actions.loginSuccess(result)),
+        call(privateAPI.setToken, result.id_token),
+      ]);
     } else {
       yield put(Actions.loginFailure());
     }
@@ -21,6 +25,25 @@ export function login(api) {
     while (true) {
       const { username, password } = yield take(Types.LOGIN_REQUEST);
       yield call(worker, username, password);
+    }
+  }
+
+  return {
+    watcher,
+    worker
+  };
+};
+
+// 登出
+export function logout(api) {
+  function * worker() {
+    yield put(Actions.logoutSuccess());
+  }
+
+  function * watcher() {
+    while (true) {
+      yield take(Types.LOGOUT_REQUEST);
+      yield call(worker);
     }
   }
 

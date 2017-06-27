@@ -1,14 +1,19 @@
-import { take, all, call, put } from 'redux-saga/effects';
+// @flow
+
+import { take, all, call, put, select } from 'redux-saga/effects';
 import { path } from 'ramda';
 import _ from 'lodash';
 
 import Types from '../Actions/Types';
 import Actions from '../Actions/Creators';
 
-export function getActivities(api) {
-  function * worker() {
+export function getActivities(api: any) {
+  function * worker(): any {
     const response = yield call(api.getActivities);
 
+    if (typeof response === 'undefined') {
+      throw new Error('`response` should be an object.');
+    }
     if (response.ok) {
       const activities = path(['data'], response);
       yield put(Actions.activitiesSuccess(activities));
@@ -17,7 +22,7 @@ export function getActivities(api) {
     }
   }
 
-  function * watcher() {
+  function * watcher(): Iterable<any> {
     while (true) {
       yield take(Types.ACTIVITIES_REQUEST);
       yield call(worker);
@@ -30,19 +35,22 @@ export function getActivities(api) {
   };
 };
 
-export function getActivity(api) {
-  function * worker(id, user_id, wx_username) {
+export function getActivity(api: any) {
+  function * worker(id: any): any {
     const [resAct, resActUsers] = yield all([
       call(api.getActivity, id),
       call(api.getActUsers, id),
     ]);
 
+    const state = yield select();
     if (resAct.ok && resActUsers.ok) {
       const activity = path(['data'], resAct);
       const actusers = path(['data'], resActUsers);
       let hasme = false;
-      if(_.find(actusers, {user_id})) {
-        hasme = true;
+      if (state.login.login) {
+        if(_.find(actusers, {user_id: state.login.login.idgl_user})) {
+          hasme = true;
+        }
       }
       yield put(Actions.activitySuccess(activity, actusers, hasme));
     } else {
@@ -50,10 +58,10 @@ export function getActivity(api) {
     }
   }
 
-  function * watcher() {
+  function * watcher(): any {
     while (true) {
-      const { id, user_id, wx_username } = yield take(Types.ACTIVITY_REQUEST);
-      yield call(worker, id, user_id, wx_username);
+      const { id } = yield take(Types.ACTIVITY_REQUEST);
+      yield call(worker, id);
     }
   }
 

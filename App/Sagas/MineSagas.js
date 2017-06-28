@@ -16,8 +16,8 @@ export function getMine(api: any): any {
     if (resProjects.ok && resActivities.ok) {
       yield put(Actions.mineSuccess(
         path(['data'], resProjects),
-        path(['data'], resActivities))
-      );
+        path(['data'], resActivities)
+      ));
     } else {
       yield put(Actions.mineFailure());
     }

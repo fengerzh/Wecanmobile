@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import {
+  Image,
   Modal,
   StyleSheet,
   Text,
@@ -10,6 +11,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import t from 'tcomb-form-native';
+import * as WeChat from 'react-native-wechat';
 
 import Actions from '../Actions/Creators';
 
@@ -67,13 +69,15 @@ class LoginScreen extends Component {
     super();
     this.userLogin = this.userLogin.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    // 注册微信
+    WeChat.registerApp('wxacb1f81bdb95605c');
   }
 
   // 用户点击登录按钮，开始登录
   userLogin() {
     const value = this.form.getValue();
     if (value) {
-      this.props.attemptLogin(value.username, value.password);
+      this.props.attemptLogin(value.username, value.password, 'password');
     }
   }
 
@@ -84,6 +88,25 @@ class LoginScreen extends Component {
     } else {
       await this.props.navigation.navigate('Activities');
     }
+  }
+
+  weixinLogin() {
+    // 检查微信是否已安装
+    WeChat.isWXAppInstalled().then((isInstalled) => {
+      if (isInstalled) {
+        // 微信登录
+        WeChat.sendAuthRequest('snsapi_userinfo', 'APPLOGIN').then((user) => {
+          this.props.attemptLogin('', user.code, 'weixin');
+        });
+        // 分享给朋友
+        // WeChat.shareToSession({
+        // 	type: 'text',
+        // 	description: 'aaa',
+        // });
+      } else {
+        alert('没有安装微信软件，请您安装微信之后再试');
+      }
+    });
   }
 
   render() {
@@ -112,11 +135,16 @@ class LoginScreen extends Component {
             >
               <Text style={styles.buttonText}>登录</Text>
             </TouchableHighlight>
-            <View>
-              <TouchableHighlight onPress={() => { this.closeModal() }}>
-                <Text>取消</Text>
-              </TouchableHighlight>
-            </View>
+          </View>
+          <View>
+            <TouchableHighlight onPress={() => { this.weixinLogin() }}>
+              <Image source={require('../Images/wxlogo.png')} style={{width: 150, height: 150}} />
+            </TouchableHighlight>
+          </View>
+          <View>
+            <TouchableHighlight onPress={() => { this.closeModal() }}>
+              <Text>取消</Text>
+            </TouchableHighlight>
           </View>
         </View>
       </Modal>
@@ -132,7 +160,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    attemptLogin: (username, password) => dispatch(Actions.loginRequest(username, password)),
+    attemptLogin: (username, password, method) => dispatch(Actions.loginRequest(username, password, method)),
   }
 }
 

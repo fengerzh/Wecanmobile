@@ -20,7 +20,6 @@ import {
 } from 'native-base';
 import HTMLView from 'react-native-htmlview';
 import Formatter from 'chinese-datetime-formatter';
-import * as WeChat from 'react-native-wechat';
 
 import Actions from '../Actions/Creators';
 import LoginScreen from './LoginScreen';
@@ -65,19 +64,6 @@ class ActivityScreen extends Component {
 
   componentWillMount() {
     this.getActivity(this.props.navigation.state.params.act_id);
-
-    // 检查微信是否已安装
-    // WeChat.isWXAppInstalled().then(() => {
-      // 微信登录
-      // WeChat.login().then((user) => {
-      //   alert(JSON.stringify(user));
-      // });
-      // 分享给朋友
-      // WeChat.shareToSession({
-      // 	type: 'text',
-      // 	description: 'aaa',
-      // });
-    // });
   }
 
   setActUser(act_id, direction) {

@@ -14,11 +14,12 @@ const publicAPI = (baseURL: string = 'https://api.weinnovators.com/') => {
 
   // 我们可以把所有公开接口放在这里
   const getActivities = () => api.get('activities?corpid=wxd9ed6139adfa53ce');
-  const getActivity = (id: string) => api.get('activities/' + id);
-  const getActUsers = (id: string) => api.get('actusers?id=' + id);
+  const getActivity = (id: string) => api.get(`activities/${id}`);
+  const getActUsers = (id: string) => api.get(`actusers?id=${id}`);
   const getResources = () => api.get('facitems');
   const getNewses = () => api.get('news');
-  const login = (username: string, password: string) => api.post('gluseruser/login', 'username=' + username + '&password=' + password, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
+  const login = (username: string, password: string) => api.post('gluseruser/login', `username=${username}&password=${password}`, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
+  const wxLogin = (code: string) => api.get(`gluseruser/verify?code=${code}&state=APPLOGIN`);
 
   return {
     getActivities,
@@ -27,6 +28,7 @@ const publicAPI = (baseURL: string = 'https://api.weinnovators.com/') => {
     getResources,
     getNewses,
     login,
+    wxLogin,
   }
 };
 

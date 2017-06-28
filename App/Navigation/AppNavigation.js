@@ -25,11 +25,6 @@ import sMyActivities from '../Containers/MyActivitiesScreen';
 import sSettings from '../Containers/SettingsScreen';
 import sAbout from '../Containers/AboutScreen';
 
-import iconActivities from '../icons/activities.png';
-import iconResources from '../icons/resources.png';
-import iconNews from '../icons/news.png';
-import iconMine from '../icons/mine.png';
-
 const IconImage = styled.Image`
   width: 26;
   height: 26;
@@ -53,7 +48,7 @@ const AppNavigation = TabNavigator(
       }),
       navigationOptions: ({navigation, screenProps}) => ({
           tabBarLabel: '活动',
-          tabBarIcon: (tintColor) => (<IconImage source={iconActivities} style={tintColor} />),
+          tabBarIcon: (tintColor) => (<IconImage source={require('../icons/activities.png')} style={tintColor} />),
       }),
     },
     Resources: {
@@ -71,7 +66,7 @@ const AppNavigation = TabNavigator(
       }),
       navigationOptions: {
         tabBarLabel: '资源',
-        tabBarIcon: (tintColor) => (<IconImage source={iconResources} style={tintColor} />),
+        tabBarIcon: (tintColor) => (<IconImage source={require('../icons/resources.png')} style={tintColor} />),
       },
     },
     News: {
@@ -85,7 +80,7 @@ const AppNavigation = TabNavigator(
       }),
       navigationOptions: {
         tabBarLabel: '新闻',
-        tabBarIcon: (tintColor) => (<IconImage source={iconNews} style={tintColor} />),
+        tabBarIcon: (tintColor) => (<IconImage source={require('../icons/news.png')} style={tintColor} />),
       },
     },
     Mine: {
@@ -125,7 +120,7 @@ const AppNavigation = TabNavigator(
       }),
       navigationOptions: {
         tabBarLabel: '我的',
-        tabBarIcon: (tintColor) => (<IconImage source={iconMine} style={tintColor} />),
+        tabBarIcon: (tintColor) => (<IconImage source={require('../icons/mine.png')} style={tintColor} />),
       },
     },
   },

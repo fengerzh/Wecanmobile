@@ -2,13 +2,11 @@
 
 import Types from './Types';
 
-const loginRequest = (username: string, password: string) => ({ type: Types.LOGIN_REQUEST, username, password });
+const loginRequest = (username: string, password: string, method: string) => ({ type: Types.LOGIN_REQUEST, username, password, method });
 const loginSuccess = (login: any) => ({ type: Types.LOGIN_SUCCESS, login });
 const loginFailure = (errorCode: any) => ({ type: Types.LOGIN_FAILURE, errorCode });
 
 const logoutRequest = () => ({ type: Types.LOGOUT_REQUEST });
-const logoutSuccess = () => ({ type: Types.LOGOUT_SUCCESS });
-const logoutFailure = (errorCode: any) => ({ type: Types.LOGOUT_FAILURE, errorCode });
 
 const activitiesRequest = () => ({ type: Types.ACTIVITIES_REQUEST });
 const activitiesSuccess = (activities: any) => ({ type: Types.ACTIVITIES_SUCCESS, activities });
@@ -42,8 +40,6 @@ export default {
   loginFailure,
 
   logoutRequest,
-  logoutSuccess,
-  logoutFailure,
 
   activitiesRequest,
   activitiesSuccess,

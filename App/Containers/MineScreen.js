@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components/native';
 import {
   Image,
-  TouchableHighlight,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -52,6 +52,7 @@ class MineScreen extends Component {
 
     // 按照活动状态统计活动个数
     const actCount = _.countBy(this.props.activities, 'status');
+    const facCount = _.countBy(this.props.facprojs, 'status');
 
     return (
       <Container>
@@ -62,7 +63,7 @@ class MineScreen extends Component {
                 <Thumbnail source={{uri: this.props.login ? `https://img.weinnovators.com/wxavatars/${this.props.login.idgl_user}.jpg` : ''}} />
                 <Body>
                   <Text>{this.props.login ? this.props.login.wx_username : ''}</Text>
-                  <Text note>Other info</Text>
+                  <Text note></Text>
                 </Body>
               </Left>
             </CardItem>
@@ -88,30 +89,30 @@ class MineScreen extends Component {
             </CardItem>
             <CardItem>
               <Body style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
-                <TouchableHighlight onPress={() => this.props.navigation.navigate('MyActivities', { status: 0 })}>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('MyFacprojs', { status: 0 })}>
                   <View>
-                    <TextNumber>{actCount['0'] ? actCount['0'] : 0}</TextNumber>
+                    <TextNumber>{facCount['0'] ? facCount['0'] : 0}</TextNumber>
                     <TextLabel>待批准</TextLabel>
                   </View>
-                </TouchableHighlight>
-                <TouchableHighlight onPress={() => this.props.navigation.navigate('MyActivities', { status: 1 })}>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('MyFacprojs', { status: 1 })}>
                   <View>
-                    <TextNumber>{actCount['1'] ? actCount['1'] : 0}</TextNumber>
+                    <TextNumber>{facCount['1'] ? facCount['1'] : 0}</TextNumber>
                     <TextLabel>待参与</TextLabel>
                   </View>
-                </TouchableHighlight>
-                <TouchableHighlight onPress={() => this.props.navigation.navigate('MyActivities', { status: 2 })}>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('MyFacprojs', { status: 2 })}>
                   <View>
-                    <TextNumber>{actCount['2'] ? actCount['2'] : 0}</TextNumber>
+                    <TextNumber>{facCount['2'] ? facCount['2'] : 0}</TextNumber>
                     <TextLabel>被拒绝</TextLabel>
                   </View>
-                </TouchableHighlight>
-                <TouchableHighlight onPress={() => this.props.navigation.navigate('MyActivities', { status: 99 })}>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('MyFacprojs', { status: 99 })}>
                   <View>
-                    <TextNumber>{actCount['99'] ? actCount['99'] : 0}</TextNumber>
+                    <TextNumber>{facCount['99'] ? facCount['99'] : 0}</TextNumber>
                     <TextLabel>已完成</TextLabel>
                   </View>
-                </TouchableHighlight>
+                </TouchableOpacity>
               </Body>
             </CardItem>
           </Card>
@@ -121,30 +122,30 @@ class MineScreen extends Component {
             </CardItem>
             <CardItem>
               <Body style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
-                <TouchableHighlight onPress={() => this.props.navigation.navigate('MyActivities', { status: 0 })}>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('MyActivities', { status: 0 })}>
                   <View>
                     <TextNumber>{actCount['0'] ? actCount['0'] : 0}</TextNumber>
                     <TextLabel>待批准</TextLabel>
                   </View>
-                </TouchableHighlight>
-                <TouchableHighlight onPress={() => this.props.navigation.navigate('MyActivities', { status: 1 })}>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('MyActivities', { status: 1 })}>
                   <View>
                     <TextNumber>{actCount['1'] ? actCount['1'] : 0}</TextNumber>
                     <TextLabel>待参与</TextLabel>
                   </View>
-                </TouchableHighlight>
-                <TouchableHighlight onPress={() => this.props.navigation.navigate('MyActivities', { status: 2 })}>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('MyActivities', { status: 2 })}>
                   <View>
                     <TextNumber>{actCount['2'] ? actCount['2'] : 0}</TextNumber>
                     <TextLabel>被拒绝</TextLabel>
                   </View>
-                </TouchableHighlight>
-                <TouchableHighlight onPress={() => this.props.navigation.navigate('MyActivities', { status: 99 })}>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('MyActivities', { status: 99 })}>
                   <View>
                     <TextNumber>{actCount['99'] ? actCount['99'] : 0}</TextNumber>
                     <TextLabel>已完成</TextLabel>
                   </View>
-                </TouchableHighlight>
+                </TouchableOpacity>
               </Body>
             </CardItem>
           </Card>
@@ -159,6 +160,7 @@ const mapStateToProps = (state) => {
     login: state.login.login,
     projects: state.mine.projects,
     activities: state.mine.activities,
+    facprojs: state.mine.facprojs,
   }
 }
 

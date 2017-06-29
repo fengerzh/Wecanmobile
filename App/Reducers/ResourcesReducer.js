@@ -33,10 +33,43 @@ const failure = (state: any) => {
   });
 }
 
+const requestSetFacProj = (state: any) => {
+  return state.merge({
+    error: null,
+    fetching: true,
+  });
+}
+
+const requestDeleteFacProj = (state: any) => {
+  return state.merge({
+    error: null,
+    fetching: true,
+  });
+}
+
+const successSetFacProj = (state: any, action: any) => {
+  return state.merge({
+    fetching: false,
+    error: null,
+  });
+}
+
+const failureSetFacProj = (state: any, action: any) => {
+  const {error} = action;
+  return state.merge({
+    fetching: false,
+    error,
+  });
+}
+
 const ACTION_HANDLERS = {
   [Types.RESOURCES_REQUEST]: request,
   [Types.RESOURCES_SUCCESS]: success,
-  [Types.RESOURCES_FAILURE]: failure
+  [Types.RESOURCES_FAILURE]: failure,
+  [Types.SET_FAC_PROJ_REQUEST]: requestSetFacProj,
+  [Types.DELETE_FAC_PROJ_REQUEST]: requestDeleteFacProj,
+  [Types.SET_FAC_PROJ_SUCCESS]: successSetFacProj,
+  [Types.SET_FAC_PROJ_FAILURE]: failureSetFacProj,
 };
 
 export default createReducer(INITIAL_STATE, ACTION_HANDLERS);

@@ -6,6 +6,7 @@ import {
   FlatList,
   Image,
   TouchableHighlight,
+  TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
 import {
@@ -19,6 +20,7 @@ import {
 } from 'native-base';
 import { withNavigationFocus } from 'react-navigation-is-focused-hoc';
 import Formatter from 'chinese-datetime-formatter';
+import _ from 'lodash';
 
 import Actions from '../Actions/Creators';
 
@@ -64,19 +66,20 @@ class ActivitiesScreen extends PureComponent {
   }
 
   render() {
-    const { activities, fetching } = this.props;
-
     return (
       <Container>
         <Content padder>
-          {fetching && (
+          {this.props.fetching && (
             <Spinner />
           )}
           <FlatList
-            data={activities}
+            data={_.filter(this.props.activities, (o) => {
+              return (o.act_date > Formatter(Date(), 'yyyy-MM-dd'));
+            })}
+            removeClippedSubviews={false}
             keyExtractor={item => item.act_id}
             renderItem={({ item }) => (
-              <TouchableHighlight onPress={() => this.props.navigation.navigate('Activity', { act_id: item.act_id })}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('Activity', { act_id: item.act_id })}>
                 <Card style={{ flex: 0 }}>
                   <CardItem cardBody>
                     <Image
@@ -93,7 +96,7 @@ class ActivitiesScreen extends PureComponent {
                     </Body>
                   </CardItem>
                 </Card>
-              </TouchableHighlight>
+              </TouchableOpacity>
             )}
           />
         </Content>
@@ -115,5 +118,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-// export default connect(mapStateToProps, mapDispatchToProps)(ActivitiesScreen);
 export default connect(mapStateToProps, mapDispatchToProps)(withNavigationFocus(ActivitiesScreen, 'Activities'));

@@ -8,15 +8,21 @@ import Actions from '../Actions/Creators';
 
 export function getMine(api: any): any {
   function * worker() {
-    const [resProjects, resActivities] = yield all([
+    const [
+      resProjects,
+      resActivities,
+      resFacProjs,
+    ] = yield all([
       call(api.getProjectsByUser),
       call(api.getActivitiesByUser),
+      call(api.getFacprojsByUser),
     ]);
 
-    if (resProjects.ok && resActivities.ok) {
+    if (resProjects.ok && resActivities.ok && resFacProjs.ok) {
       yield put(Actions.mineSuccess(
         path(['data'], resProjects),
-        path(['data'], resActivities)
+        path(['data'], resActivities),
+        path(['data'], resFacProjs)
       ));
     } else {
       yield put(Actions.mineFailure());

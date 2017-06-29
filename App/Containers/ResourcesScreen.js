@@ -31,6 +31,7 @@ class MyFlatList extends Component {
         <FlatList
           data={this.props.dataset}
           keyExtractor={item => item.idfac_item}
+          removeClippedSubviews={false}
           renderItem={({ item }) => (
             <TouchableHighlight onPress={() => this.props.navigation.navigate('Resource', { id: item.idfac_item })}>
               <Card style={{ flex: 0 }}>

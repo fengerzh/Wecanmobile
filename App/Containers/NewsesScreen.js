@@ -58,6 +58,7 @@ class NewsesScreen extends Component {
           <FlatList
             data={newses}
             keyExtractor={item => item.idnews}
+            removeClippedSubviews={false}
             renderItem={({ item }) => (
               <ListItem onPress={() => this.props.navigation.navigate('News', { id: item.idnews })}>
                 <Body>

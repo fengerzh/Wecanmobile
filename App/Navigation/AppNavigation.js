@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components/native';
 import {
-  TouchableHighlight,
+  TouchableOpacity,
 } from 'react-native';
 import {
   Icon,
@@ -22,6 +22,7 @@ import sNews from '../Containers/News';
 
 import sMine from '../Containers/MineScreen';
 import sMyActivities from '../Containers/MyActivitiesScreen';
+import sMyFacprojs from '../Containers/MyFacprojsScreen';
 import sSettings from '../Containers/SettingsScreen';
 import sAbout from '../Containers/AboutScreen';
 
@@ -90,9 +91,9 @@ const AppNavigation = TabNavigator(
           navigationOptions: ({ navigation }) => ({
             title: '我的',
             headerLeft: (
-              <TouchableHighlight onPress={() => navigation.navigate('Settings')}>
+              <TouchableOpacity onPress={() => navigation.navigate('Settings')} style={{padding: 10}}>
                 <Icon name='settings' />
-              </TouchableHighlight>
+              </TouchableOpacity>
             ),
           }),
         },
@@ -100,6 +101,13 @@ const AppNavigation = TabNavigator(
           screen: sMyActivities,
           navigationOptions: ({ navigation }) => ({
             title: '我的活动',
+            tabBarVisible: false,
+          }),
+        },
+        MyFacprojs: {
+          screen: sMyFacprojs,
+          navigationOptions: ({ navigation }) => ({
+            title: '我的预约',
             tabBarVisible: false,
           }),
         },
@@ -125,7 +133,7 @@ const AppNavigation = TabNavigator(
     },
   },
   {
-    lazy: true,
+    // lazy: true,
     tabBarOptions: {
       activeTintColor: '#ae4928',
     },

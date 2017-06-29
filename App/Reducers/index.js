@@ -24,5 +24,4 @@ export const persistentStoreBlacklist = [
   'activity',
   'resources',
   'newses',
-  'mine',
 ];

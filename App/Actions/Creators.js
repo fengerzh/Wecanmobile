@@ -24,12 +24,17 @@ const resourcesRequest = () => ({ type: Types.RESOURCES_REQUEST });
 const resourcesSuccess = (resources: any) => ({ type: Types.RESOURCES_SUCCESS, resources });
 const resourcesFailure = (errorCode: any) => ({ type: Types.RESOURCES_FAILURE, errorCode });
 
+const setFacProjRequest = (item_id: number, proj_id: number, start_time: string, end_time: string) => ({ type: Types.SET_FAC_PROJ_REQUEST, item_id, proj_id, start_time, end_time });
+const deleteFacProjRequest = (id: number) => ({ type: Types.DELETE_FAC_PROJ_REQUEST, id });
+const setFacProjSuccess = () => ({ type: Types.SET_FAC_PROJ_SUCCESS });
+const setFacProjFailure = (error: string) => ({ type: Types.SET_FAC_PROJ_FAILURE, error });
+
 const newsesRequest = () => ({ type: Types.NEWSES_REQUEST });
 const newsesSuccess = (newses: any) => ({ type: Types.NEWSES_SUCCESS, newses });
 const newsesFailure = (errorCode: any) => ({ type: Types.NEWSES_FAILURE, errorCode });
 
 const mineRequest = () => ({ type: Types.MINE_REQUEST });
-const mineSuccess = (projects: any, activities: any) => ({ type: Types.MINE_SUCCESS, projects, activities });
+const mineSuccess = (projects: any, activities: any, facprojs: any) => ({ type: Types.MINE_SUCCESS, projects, activities, facprojs });
 const mineFailure = (errorCode: any) => ({ type: Types.MINE_FAILURE, errorCode });
 
 const startup = () => ({ type: Types.STARTUP });
@@ -56,6 +61,11 @@ export default {
   resourcesRequest,
   resourcesSuccess,
   resourcesFailure,
+
+  setFacProjRequest,
+  deleteFacProjRequest,
+  setFacProjSuccess,
+  setFacProjFailure,
 
   newsesRequest,
   newsesSuccess,

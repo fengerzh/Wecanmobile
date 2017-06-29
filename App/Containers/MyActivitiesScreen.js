@@ -30,6 +30,7 @@ class MyFlatList extends PureComponent {
         <FlatList
           data={this.props.dataset}
           keyExtractor={item => item.act_id}
+          removeClippedSubviews={false}
           renderItem={({ item }) => (
             <TouchableHighlight onPress={() => this.props.navigation.navigate('Activity', { act_id: item.act_id })}>
               <Card style={{ flex: 0 }}>
@@ -57,8 +58,6 @@ class MyFlatList extends PureComponent {
 
 class MyActivitiesScreen extends PureComponent {
   state: {
-    dsActivities: Array<any>;
-    isLoading: boolean;
     key: number;
     imageContainerHeight: number;
   };
@@ -67,8 +66,6 @@ class MyActivitiesScreen extends PureComponent {
   constructor() {
     super();
     this.state = {
-      dsActivities: [],
-      isLoading: true,
       key: 0,
       imageContainerHeight: 150,
     };
@@ -98,8 +95,6 @@ class MyActivitiesScreen extends PureComponent {
   }
 
   render() {
-    const { activities, fetching } = this.props;
-
     return (
       <Container>
         <ScrollableTabView renderTabBar={() => <ScrollableTabBar />} initialPage={this.page}>
@@ -122,7 +117,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // attemptGetMyActivities: () => dispatch(Actions.myActivitiesRequest()),
   }
 }
 

@@ -10,8 +10,8 @@ export const INITIAL_STATE = Immutable({
   error: false,
   fetching: false,
   projects: [],
-  // actusers: [],
   activities: [],
+  facprojs: [],
 });
 
 const request = (state: any, action: any) => {
@@ -21,19 +21,30 @@ const request = (state: any, action: any) => {
 }
 
 const success = (state: any, action: any) => {
-  const { projects, activities } = action;
+  const {
+    projects,
+    activities,
+    facprojs,
+  } = action;
   if (projects) {
     return state.merge({
       fetching: false,
       error: false,
       projects,
       activities,
+      facprojs,
+    });
+  } else if (activities) {
+    return state.merge({
+      fetching: false,
+      error: false,
+      activities,
     });
   } else {
     return state.merge({
       fetching: false,
       error: false,
-      activities,
+      facprojs,
     });
   }
 }
@@ -45,35 +56,10 @@ const failure = (state: any) => {
   });
 }
 
-// const requestMyActivities = (state: any, action: any) => {
-//   return state.merge({
-//     fetching: true,
-//   });
-// }
-//
-// const successMyActivities = (state: any, action: any) => {
-//   const { activities } = action;
-//   return state.merge({
-//     fetching: false,
-//     error: false,
-//     activities,
-//   });
-// }
-//
-// const failureMyActivities = (state: any) => {
-//   return state.merge({
-//     fetching: false,
-//     error: true,
-//   });
-// }
-
 const ACTION_HANDLERS = {
   [Types.MINE_REQUEST]: request,
   [Types.MINE_SUCCESS]: success,
   [Types.MINE_FAILURE]: failure,
-  // [Types.MY_ACTIVITIES_REQUEST]: requestMyActivities,
-  // [Types.MY_ACTIVITIES_SUCCESS]: successMyActivities,
-  // [Types.MY_ACTIVITIES_FAILURE]: failureMyActivities,
 };
 
 export default createReducer(INITIAL_STATE, ACTION_HANDLERS);

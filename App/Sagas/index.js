@@ -20,9 +20,12 @@ import {
 } from './LoginSagas';
 import {
   getMine,
-  // getMyActivities,
 } from './MineSagas';
 import { setActUser } from './ActUserSagas';
+import {
+  setFacProj,
+  deleteFacProj,
+} from './FacProjSagas';
 
 // 在这里统一决定是使用真实API还是使用虚拟API
 // const api = DebugConfig.useFixtures ? FixtureAPI : API.create();
@@ -49,5 +52,7 @@ export default function * root (): any {
 
   // 调用私密接口
   yield fork(setActUser(privateAPI).watcher);
+  yield fork(setFacProj(privateAPI).watcher);
+  yield fork(deleteFacProj(privateAPI).watcher);
   yield fork(getMine(privateAPI).watcher);
 };

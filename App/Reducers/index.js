@@ -6,6 +6,7 @@ import LoginReducer from './LoginReducer';
 import ActivitiesReducer from './ActivitiesReducer';
 import ActivityReducer from './ActivityReducer';
 import ResourcesReducer from './ResourcesReducer';
+import ResourceReducer from './ResourceReducer';
 import NewsesReducer from './NewsesReducer';
 import MineReducer from './MineReducer';
 
@@ -14,6 +15,7 @@ export default combineReducers({
   activities: ActivitiesReducer,
   activity: ActivityReducer,
   resources: ResourcesReducer,
+  resource: ResourceReducer,
   newses: NewsesReducer,
   mine: MineReducer,
 });
@@ -23,5 +25,6 @@ export const persistentStoreBlacklist = [
   'activities',
   'activity',
   'resources',
+  'resource',
   'newses',
 ];

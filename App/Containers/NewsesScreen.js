@@ -77,6 +77,7 @@ class NewsesScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    fetching: state.newses.fetching,
     newses: state.newses.newses,
   }
 }

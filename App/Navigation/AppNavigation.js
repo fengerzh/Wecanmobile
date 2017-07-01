@@ -6,7 +6,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {
+  Button,
   Icon,
+  Text,
 } from 'native-base';
 import {
   TabNavigator,
@@ -25,6 +27,8 @@ import sMyActivities from '../Containers/MyActivitiesScreen';
 import sMyFacprojs from '../Containers/MyFacprojsScreen';
 import sSettings from '../Containers/SettingsScreen';
 import sAbout from '../Containers/AboutScreen';
+
+import MineSegment from '../Components/MineSegment';
 
 const IconImage = styled.Image`
   width: 26;
@@ -95,6 +99,7 @@ const AppNavigation = TabNavigator(
                 <Icon name='settings' />
               </TouchableOpacity>
             ),
+            headerTitle: (<MineSegment></MineSegment>),
           }),
         },
         MyActivities: {
@@ -133,7 +138,7 @@ const AppNavigation = TabNavigator(
     },
   },
   {
-    // lazy: true,
+    lazy: true,
     tabBarOptions: {
       activeTintColor: '#ae4928',
     },

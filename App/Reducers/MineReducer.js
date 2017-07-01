@@ -12,6 +12,7 @@ export const INITIAL_STATE = Immutable({
   projects: [],
   activities: [],
   facprojs: [],
+  segSelected: 0,
 });
 
 const request = (state: any, action: any) => {
@@ -56,10 +57,17 @@ const failure = (state: any) => {
   });
 }
 
+const segChanged = (state: any, action: any) => {
+  return state.merge({
+    segSelected: action.id,
+  });
+}
+
 const ACTION_HANDLERS = {
   [Types.MINE_REQUEST]: request,
   [Types.MINE_SUCCESS]: success,
   [Types.MINE_FAILURE]: failure,
+  [Types.SEG_CHANGED]: segChanged,
 };
 
 export default createReducer(INITIAL_STATE, ACTION_HANDLERS);

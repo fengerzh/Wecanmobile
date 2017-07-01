@@ -2,9 +2,6 @@
 
 import React, { PureComponent } from 'react';
 import {
-  TouchableHighlight,
-} from 'react-native';
-import {
   Container,
   Content,
   Text,

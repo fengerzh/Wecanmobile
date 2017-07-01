@@ -6,7 +6,7 @@ import Types from '../Actions/Types';
 
 export const INITIAL_STATE = Immutable({
   newses: null,
-  fetching: true,
+  fetching: false,
   error: null,
 });
 

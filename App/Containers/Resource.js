@@ -3,10 +3,12 @@
 import React, { Component } from 'react';
 import {
   Alert,
-  Image,
   TouchableOpacity,
   View,
 } from 'react-native';
+import Image from 'react-native-image-progress';
+// import Progress from 'react-native-progress';
+import ProgressBar from 'react-native-progress/Bar';
 import { connect } from 'react-redux';
 import {
   Button,
@@ -35,6 +37,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import Formatter from 'chinese-datetime-formatter';
 
 import Actions from '../Actions/Creators';
+import LoginScreen from './LoginScreen';
 
 LocaleConfig.locales['cn'] = {
   monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
@@ -46,111 +49,98 @@ LocaleConfig.defaultLocale = 'cn';
 
 class ResourceScreen extends Component {
   state: {
-    dataset: {
-      item_name: string;
-      item_cover: string;
-    };
-    isLoading: boolean;
     isDateTimePickerVisible: boolean;
     timetype: string;
     starttime: string;
     endtime: string;
     selected: string;
-    selectedProject: string;
+    selectedProject: number;
+    showModal: boolean;
   };
   handleDatePicked: Function;
   showDateTimePicker: Function;
   hideDateTimePicker: Function;
   renderItem: Function;
+  closeModal: Function;
 
   constructor() {
     super();
     this.state = {
-      dataset: {
-        item_name: '',
-        item_cover: '',
-      },
-      isLoading: true,
       isDateTimePickerVisible: false,
       timetype: 'starttime',
       starttime: '00:00',
       endtime: '00:00',
       selected: '',
-      selectedProject: '',
+      selectedProject: 0,
+      showModal: false,
     };
     this.handleDatePicked = this.handleDatePicked.bind(this);
     this.showDateTimePicker = this.showDateTimePicker.bind(this);
     this.hideDateTimePicker = this.hideDateTimePicker.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
   componentWillMount() {
-    this.getData();
+    this.props.attemptGetResource(this.props.navigation.state.params.id);
     this.setState({
-      selectedProject: this.props.projects[0].ida_project,
+      selectedProject: this.props.projects[0] ? this.props.projects[0].ida_project : 0,
     })
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.error) {
-      Alert.alert('温馨提醒', nextProps.error, [
-        {
-          text:'确定',
-          onPress: () => {},
-        },
-      ]);
-    } else if (!nextProps.fetching) {
-      Alert.alert('温馨提醒', '预约已成功，请按时使用', [
-        {
-          text:'确定',
-          onPress: () => {},
-        },
-      ]);
-    }
-  }
-
-  async getData() {
-    try {
-      const response = await fetch(`https://api.weinnovators.com/facitems/${this.props.navigation.state.params.id}`);
-      const responseJson = await response.json();
-      this.setState({
-        dataset: responseJson,
-        isLoading: false,
-      });
-      return responseJson.movies;
-    } catch (error) {
-      return -1;
+    if (this.props.setting && !nextProps.setting) {
+      if (nextProps.error) {
+        Alert.alert('温馨提醒', nextProps.error, [
+          {
+            text:'确定',
+            onPress: () => {},
+          },
+        ]);
+      } else {
+        Alert.alert('温馨提醒', '预约已成功，请按时使用', [
+          {
+            text:'确定',
+            onPress: () => {},
+          },
+        ]);
+      }
     }
   }
 
   setFacProj() {
-    if (!this.state.selected) {
-      Toast.show({
-        supportedOrientations: ['portrait','landscape'],
-        text: '请选择日期',
-        position: 'bottom',
-        buttonText: '确定',
-      });
-    } else if (this.state.starttime === '00:00') {
-      Toast.show({
-        supportedOrientations: ['portrait','landscape'],
-        text: '请选择开始时间',
-        position: 'bottom',
-        buttonText: '确定',
-      });
-    } else if (this.state.endtime === '00:00') {
-      Toast.show({
-        supportedOrientations: ['portrait','landscape'],
-        text: '请先选择结束时间',
-        position: 'bottom',
-        buttonText: '确定',
-      });
+    if (this.props.login == null) {
+      // 如果本地没有存储用户信息，则错误，弹出登录页面
+      this.setState({showModal: true});
     } else {
-      this.props.attemptSetFacProj(
-        this.props.navigation.state.params.id,
-        this.state.selectedProject,
-        this.state.selected + ' ' + this.state.starttime + ':00',
-        this.state.selected + ' ' + this.state.endtime + ':00'
-      );
+      if (!this.state.selected) {
+        Toast.show({
+          supportedOrientations: ['portrait','landscape'],
+          text: '请选择日期',
+          position: 'bottom',
+          buttonText: '确定',
+        });
+      } else if (this.state.starttime === '00:00') {
+        Toast.show({
+          supportedOrientations: ['portrait','landscape'],
+          text: '请选择开始时间',
+          position: 'bottom',
+          buttonText: '确定',
+        });
+      } else if (this.state.endtime === '00:00') {
+        Toast.show({
+          supportedOrientations: ['portrait','landscape'],
+          text: '请先选择结束时间',
+          position: 'bottom',
+          buttonText: '确定',
+        });
+      } else {
+        this.props.attemptSetFacProj(
+          this.props.navigation.state.params.id,
+          this.state.selectedProject,
+          this.state.selected + ' ' + this.state.starttime + ':00',
+          this.state.selected + ' ' + this.state.endtime + ':00'
+        );
+      }
     }
   }
 
@@ -172,7 +162,6 @@ class ResourceScreen extends Component {
       // calendar clicked
       this.setState({
         selected: date.dateString,
-        // starttime: Formatter(date.dateString, 'yyyy-MM-dd HH:mm:ss'),
       });
     }
   }
@@ -198,23 +187,29 @@ class ResourceScreen extends Component {
     );
   }
 
-  onProjectSelect(value: string) {
+  onProjectSelect(value: number) {
     this.setState({
       selectedProject: value
     });
   }
 
+  closeModal() {
+    this.setState({showModal: false});
+  }
+
   render() {
-    const item = this.state.dataset;
+    const item = this.props.resource;
     const PickerItem = Picker.Item;
 
     return (
       <Container>
         <Content padder>
+          {this.state.showModal && (<LoginScreen navigation={this.props.navigation} visible={this.state.showModal} closeme={this.closeModal} />)}
           <Card>
             <CardItem>
               <Image
                 style={{ resizeMode: 'cover', width: null, height: 150, flex: 1 }}
+                indicator={ProgressBar}
                 source={{uri: !item.item_cover ? 'https://img.weinnovators.com/facitemcovers/1.jpg' : `https://img.weinnovators.com/facitemcovers/${item.item_cover}`}}
               />
             </CardItem>
@@ -320,11 +315,15 @@ const mapStateToProps = (state) => {
     projects: state.mine.projects,
     error: state.resources.error,
     fetching: state.resources.fetching,
+    setting: state.resources.setting,
+    resource: state.resource.resource,
+    login: state.login.login,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    attemptGetResource: (id) => dispatch(Actions.resourceRequest(id)),
     attemptSetFacProj: (item_id, proj_id, start_time, end_time) => dispatch(Actions.setFacProjRequest(item_id, proj_id, start_time, end_time)),
   }
 }

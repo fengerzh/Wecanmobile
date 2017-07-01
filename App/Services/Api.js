@@ -17,6 +17,7 @@ const publicAPI = (baseURL: string = 'https://api.weinnovators.com/') => {
   const getActivity = (id: string) => api.get(`activities/${id}`);
   const getActUsers = (id: string) => api.get(`actusers?id=${id}`);
   const getResources = () => api.get('facitems');
+  const getResource = (id: number) => api.get(`facitems/${id}`);
   const getNewses = () => api.get('news');
   const login = (username: string, password: string) => api.post('gluseruser/login', `username=${username}&password=${password}`, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
   const wxLogin = (code: string) => api.get(`gluseruser/verify?code=${code}&state=APPLOGIN`);
@@ -26,6 +27,7 @@ const publicAPI = (baseURL: string = 'https://api.weinnovators.com/') => {
     getActivity,
     getActUsers,
     getResources,
+    getResource,
     getNewses,
     login,
     wxLogin,

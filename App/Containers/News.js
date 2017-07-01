@@ -35,13 +35,6 @@ export default class News extends Component {
     }
   }
 
-  // <WebView
-  //   startInLoadingState={false}
-  //   domStorageEnabled
-  //   source={{ html: this.state.dataset.news_content }}
-  // />
-  // <Text>{this.state.dataset.news_title}</Text>
-  // startInLoadingState={false}
   render() {
     const html = `<h2>${this.state.dataset.news_title}</h2>
       ${this.state.dataset.news_content.replace(/http:\/\//g, 'https://')}

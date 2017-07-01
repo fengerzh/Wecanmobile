@@ -12,7 +12,7 @@ const activitiesRequest = () => ({ type: Types.ACTIVITIES_REQUEST });
 const activitiesSuccess = (activities: any) => ({ type: Types.ACTIVITIES_SUCCESS, activities });
 const activitiesFailure = (errorCode: any) => ({ type: Types.ACTIVITIES_FAILURE, errorCode });
 
-const activityRequest = (id: any) => ({ type: Types.ACTIVITY_REQUEST, id });
+const activityRequest = (id: number) => ({ type: Types.ACTIVITY_REQUEST, id });
 const activitySuccess = (activity: any, actusers: any, hasme: boolean) => ({ type: Types.ACTIVITY_SUCCESS, activity, actusers, hasme });
 const activityFailure = (errorCode: any) => ({ type: Types.ACTIVITY_FAILURE, errorCode });
 
@@ -23,6 +23,10 @@ const setActUserFailure = (errorCode: any) => ({ type: Types.SET_ACT_USER_FAILUR
 const resourcesRequest = () => ({ type: Types.RESOURCES_REQUEST });
 const resourcesSuccess = (resources: any) => ({ type: Types.RESOURCES_SUCCESS, resources });
 const resourcesFailure = (errorCode: any) => ({ type: Types.RESOURCES_FAILURE, errorCode });
+
+const resourceRequest = (id: number) => ({ type: Types.RESOURCE_REQUEST, id });
+const resourceSuccess = (resource: any) => ({ type: Types.RESOURCE_SUCCESS, resource });
+const resourceFailure = (errorCode: string) => ({ type: Types.RESOURCE_FAILURE, errorCode });
 
 const setFacProjRequest = (item_id: number, proj_id: number, start_time: string, end_time: string) => ({ type: Types.SET_FAC_PROJ_REQUEST, item_id, proj_id, start_time, end_time });
 const deleteFacProjRequest = (id: number) => ({ type: Types.DELETE_FAC_PROJ_REQUEST, id });
@@ -36,6 +40,8 @@ const newsesFailure = (errorCode: any) => ({ type: Types.NEWSES_FAILURE, errorCo
 const mineRequest = () => ({ type: Types.MINE_REQUEST });
 const mineSuccess = (projects: any, activities: any, facprojs: any) => ({ type: Types.MINE_SUCCESS, projects, activities, facprojs });
 const mineFailure = (errorCode: any) => ({ type: Types.MINE_FAILURE, errorCode });
+
+const segChanged = (id: number) => ({ type: Types.SEG_CHANGED, id });
 
 const startup = () => ({ type: Types.STARTUP });
 
@@ -62,6 +68,10 @@ export default {
   resourcesSuccess,
   resourcesFailure,
 
+  resourceRequest,
+  resourceSuccess,
+  resourceFailure,
+
   setFacProjRequest,
   deleteFacProjRequest,
   setFacProjSuccess,
@@ -74,6 +84,8 @@ export default {
   mineRequest,
   mineSuccess,
   mineFailure,
+
+  segChanged,
 
   startup,
 };

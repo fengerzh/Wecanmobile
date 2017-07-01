@@ -11,7 +11,10 @@ import {
   getActivities,
   getActivity,
 } from './ActivitySagas';
-import { getResources } from './ResourceSagas';
+import {
+  getResources,
+  getResource,
+} from './ResourceSagas';
 import { getNewses } from './NewsSagas';
 import {
   login,
@@ -48,6 +51,7 @@ export default function * root (): any {
   yield fork(getActivities(publicAPI).watcher);
   yield fork(getActivity(publicAPI).watcher);
   yield fork(getResources(publicAPI).watcher);
+  yield fork(getResource(publicAPI).watcher);
   yield fork(getNewses(publicAPI).watcher);
 
   // 调用私密接口

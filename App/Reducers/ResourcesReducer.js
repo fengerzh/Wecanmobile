@@ -6,7 +6,8 @@ import Types from '../Actions/Types';
 
 export const INITIAL_STATE = Immutable({
   resources: null,
-  fetching: true,
+  fetching: false,
+  setting: false,
   error: null,
 });
 
@@ -36,20 +37,20 @@ const failure = (state: any) => {
 const requestSetFacProj = (state: any) => {
   return state.merge({
     error: null,
-    fetching: true,
+    setting: true,
   });
 }
 
 const requestDeleteFacProj = (state: any) => {
   return state.merge({
     error: null,
-    fetching: true,
+    setting: true,
   });
 }
 
 const successSetFacProj = (state: any, action: any) => {
   return state.merge({
-    fetching: false,
+    setting: false,
     error: null,
   });
 }
@@ -57,7 +58,7 @@ const successSetFacProj = (state: any, action: any) => {
 const failureSetFacProj = (state: any, action: any) => {
   const {error} = action;
   return state.merge({
-    fetching: false,
+    setting: false,
     error,
   });
 }

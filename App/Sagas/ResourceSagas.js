@@ -27,3 +27,29 @@ export function getResources(api) {
     worker
   };
 };
+
+export function getResource(api: any) {
+  function * worker(id: number): any {
+    const [resResource] = yield all([
+      call(api.getResource, id),
+    ]);
+
+    if (resResource.ok) {
+      yield put(Actions.resourceSuccess(path(['data'], resResource)));
+    } else {
+      yield put(Actions.resourceFailure(JSON.stringify(resResource)));
+    }
+  }
+
+  function * watcher(): any {
+    while (true) {
+      const { id } = yield take(Types.RESOURCE_REQUEST);
+      yield call(worker, id);
+    }
+  }
+
+  return {
+    watcher,
+    worker
+  };
+};

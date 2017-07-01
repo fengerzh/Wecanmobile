@@ -107,6 +107,7 @@ class ActivitiesScreen extends PureComponent {
 
 const mapStateToProps = (state) => {
   return {
+    fetching: state.activities.fetching,
     activities: state.activities.activities,
     cancelClicked: state.login.cancelClicked,
   }

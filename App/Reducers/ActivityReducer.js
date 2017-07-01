@@ -24,8 +24,6 @@ export const INITIAL_STATE = Immutable({
 const request = (state: any, action: any) => {
   return state.merge({
     fetching: true,
-    user_id: action.user_id,
-    wx_username: action.wx_username,
   });
 }
 

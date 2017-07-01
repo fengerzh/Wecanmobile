@@ -1,13 +1,12 @@
 // @flow
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
   ActivityIndicator,
   FlatList,
   Image,
   View,
-  TouchableHighlight,
+  TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
 import {
@@ -33,7 +32,7 @@ class MyFlatList extends Component {
           keyExtractor={item => item.idfac_item}
           removeClippedSubviews={false}
           renderItem={({ item }) => (
-            <TouchableHighlight onPress={() => this.props.navigation.navigate('Resource', { id: item.idfac_item })}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Resource', { id: item.idfac_item })}>
               <Card style={{ flex: 0 }}>
                 <CardItem cardBody>
                   <Image
@@ -48,7 +47,7 @@ class MyFlatList extends Component {
                   </Body>
                 </CardItem>
               </Card>
-            </TouchableHighlight>
+            </TouchableOpacity>
           )}
         />
       </Content>

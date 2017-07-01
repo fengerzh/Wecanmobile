@@ -68,87 +68,113 @@ class MineScreen extends Component {
               </Left>
             </CardItem>
           </Card>
-          <Card>
-            <CardItem header>
-              <Text>我的项目</Text>
-            </CardItem>
-            <CardItem>
-              <Body style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
-              {this.props.projects.map(item =>
-                <View>
-                  <Image source={{uri: item.pro_logo ? `https://img.weinnovators.com/prologos/${item.pro_logo}` : 'https://wx.weinnovators.com/images/project-logo.jpg'}} style={{ width: 45, height: 45 }}/>
-                  <Text style={{textAlign: 'center'}}>{item.pro_name}</Text>
-                </View>
-              )}
-              </Body>
-            </CardItem>
-          </Card>
-          <Card>
-            <CardItem header>
-              <Text>我的预约</Text>
-            </CardItem>
-            <CardItem>
-              <Body style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('MyFacprojs', { status: 0 })}>
-                  <View>
-                    <TextNumber>{facCount['0'] ? facCount['0'] : 0}</TextNumber>
-                    <TextLabel>待批准</TextLabel>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('MyFacprojs', { status: 1 })}>
-                  <View>
-                    <TextNumber>{facCount['1'] ? facCount['1'] : 0}</TextNumber>
-                    <TextLabel>待参与</TextLabel>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('MyFacprojs', { status: 2 })}>
-                  <View>
-                    <TextNumber>{facCount['2'] ? facCount['2'] : 0}</TextNumber>
-                    <TextLabel>被拒绝</TextLabel>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('MyFacprojs', { status: 99 })}>
-                  <View>
-                    <TextNumber>{facCount['99'] ? facCount['99'] : 0}</TextNumber>
-                    <TextLabel>已完成</TextLabel>
-                  </View>
-                </TouchableOpacity>
-              </Body>
-            </CardItem>
-          </Card>
-          <Card>
-            <CardItem header>
-              <Text>我的活动</Text>
-            </CardItem>
-            <CardItem>
-              <Body style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('MyActivities', { status: 0 })}>
-                  <View>
-                    <TextNumber>{actCount['0'] ? actCount['0'] : 0}</TextNumber>
-                    <TextLabel>待批准</TextLabel>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('MyActivities', { status: 1 })}>
-                  <View>
-                    <TextNumber>{actCount['1'] ? actCount['1'] : 0}</TextNumber>
-                    <TextLabel>待参与</TextLabel>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('MyActivities', { status: 2 })}>
-                  <View>
-                    <TextNumber>{actCount['2'] ? actCount['2'] : 0}</TextNumber>
-                    <TextLabel>被拒绝</TextLabel>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('MyActivities', { status: 99 })}>
-                  <View>
-                    <TextNumber>{actCount['99'] ? actCount['99'] : 0}</TextNumber>
-                    <TextLabel>已完成</TextLabel>
-                  </View>
-                </TouchableOpacity>
-              </Body>
-            </CardItem>
-          </Card>
+          {this.props.segSelected === 0 && (
+            <View>
+              <Card>
+                <CardItem header>
+                  <Text>我的项目</Text>
+                </CardItem>
+                <CardItem>
+                  <Body style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
+                  {this.props.projects.map(item =>
+                    <View>
+                      <Image source={{uri: item.pro_logo ? `https://img.weinnovators.com/prologos/${item.pro_logo}` : 'https://wx.weinnovators.com/images/project-logo.jpg'}} style={{ width: 45, height: 45 }}/>
+                      <Text style={{textAlign: 'center'}}>{item.pro_name}</Text>
+                    </View>
+                  )}
+                  </Body>
+                </CardItem>
+              </Card>
+              <Card>
+                <CardItem header>
+                  <Text>我的预约</Text>
+                </CardItem>
+                <CardItem>
+                  <Body style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('MyFacprojs', { status: 0 })}>
+                      <View>
+                        <TextNumber>{facCount['0'] ? facCount['0'] : 0}</TextNumber>
+                        <TextLabel>待批准</TextLabel>
+                      </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('MyFacprojs', { status: 1 })}>
+                      <View>
+                        <TextNumber>{facCount['1'] ? facCount['1'] : 0}</TextNumber>
+                        <TextLabel>待参与</TextLabel>
+                      </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('MyFacprojs', { status: 2 })}>
+                      <View>
+                        <TextNumber>{facCount['2'] ? facCount['2'] : 0}</TextNumber>
+                        <TextLabel>被拒绝</TextLabel>
+                      </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('MyFacprojs', { status: 99 })}>
+                      <View>
+                        <TextNumber>{facCount['99'] ? facCount['99'] : 0}</TextNumber>
+                        <TextLabel>已完成</TextLabel>
+                      </View>
+                    </TouchableOpacity>
+                  </Body>
+                </CardItem>
+              </Card>
+              <Card>
+                <CardItem header>
+                  <Text>我的活动</Text>
+                </CardItem>
+                <CardItem>
+                  <Body style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('MyActivities', { status: 0 })}>
+                      <View>
+                        <TextNumber>{actCount['0'] ? actCount['0'] : 0}</TextNumber>
+                        <TextLabel>待批准</TextLabel>
+                      </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('MyActivities', { status: 1 })}>
+                      <View>
+                        <TextNumber>{actCount['1'] ? actCount['1'] : 0}</TextNumber>
+                        <TextLabel>待参与</TextLabel>
+                      </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('MyActivities', { status: 2 })}>
+                      <View>
+                        <TextNumber>{actCount['2'] ? actCount['2'] : 0}</TextNumber>
+                        <TextLabel>被拒绝</TextLabel>
+                      </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('MyActivities', { status: 99 })}>
+                      <View>
+                        <TextNumber>{actCount['99'] ? actCount['99'] : 0}</TextNumber>
+                        <TextLabel>已完成</TextLabel>
+                      </View>
+                    </TouchableOpacity>
+                  </Body>
+                </CardItem>
+              </Card>
+            </View>
+          )}
+          {this.props.segSelected === 1 && (
+            <View>
+              <Card>
+                <CardItem>
+                  <Body style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
+                    <View>
+                      <Image source={{uri: 'https://wx.weinnovators.com/images/project-logo.jpg'}} style={{ width: 45, height: 45 }}/>
+                      <Text style={{textAlign: 'center'}}>项目管理</Text>
+                    </View>
+                    <View>
+                      <Image source={{uri: 'https://wx.weinnovators.com/images/project-logo.jpg'}} style={{ width: 45, height: 45 }}/>
+                      <Text style={{textAlign: 'center'}}>活动管理</Text>
+                    </View>
+                    <View>
+                      <Image source={{uri: 'https://wx.weinnovators.com/images/project-logo.jpg'}} style={{ width: 45, height: 45 }}/>
+                      <Text style={{textAlign: 'center'}}>预约管理</Text>
+                    </View>
+                  </Body>
+                </CardItem>
+              </Card>
+            </View>
+          )}
         </Content>
       </Container>
     );
@@ -161,6 +187,7 @@ const mapStateToProps = (state) => {
     projects: state.mine.projects,
     activities: state.mine.activities,
     facprojs: state.mine.facprojs,
+    segSelected: state.mine.segSelected,
   }
 }
 

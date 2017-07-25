@@ -72,6 +72,11 @@ class ActivitiesScreen extends PureComponent {
           {this.props.fetching && (
             <Spinner />
           )}
+          {
+            (this.props.activities && _.filter(this.props.activities, function(o) { return (o.act_date > Formatter(Date(), 'yyyy-MM-dd')) }).length === 0) && (
+              <Text>近期没有活动</Text>
+            )
+          }
           <FlatList
             data={_.filter(this.props.activities, (o) => {
               return (o.act_date > Formatter(Date(), 'yyyy-MM-dd'));

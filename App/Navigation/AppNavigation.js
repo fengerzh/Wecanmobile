@@ -25,6 +25,7 @@ import sNews from '../Containers/News';
 import sMine from '../Containers/MineScreen';
 import sMyActivities from '../Containers/MyActivitiesScreen';
 import sMyFacprojs from '../Containers/MyFacprojsScreen';
+import sAllFacItems from '../Containers/AllFacItemsScreen';
 import sSettings from '../Containers/SettingsScreen';
 import sAbout from '../Containers/AboutScreen';
 
@@ -78,9 +79,16 @@ const AppNavigation = TabNavigator(
       screen: StackNavigator({
         Newses: {
           screen: sNewses,
+          navigationOptions: ({ navigation }) => ({
+            title: '所有新闻',
+          }),
         },
         News: {
           screen: sNews,
+          navigationOptions: ({ navigation }) => ({
+            title: '新闻',
+            tabBarVisible: false,
+          }),
         },
       }),
       navigationOptions: {
@@ -113,6 +121,13 @@ const AppNavigation = TabNavigator(
           screen: sMyFacprojs,
           navigationOptions: ({ navigation }) => ({
             title: '我的预约',
+            tabBarVisible: false,
+          }),
+        },
+        AllFacItems: {
+          screen: sAllFacItems,
+          navigationOptions: ({ navigation }) => ({
+            title: '出租管理',
             tabBarVisible: false,
           }),
         },

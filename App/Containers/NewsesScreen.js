@@ -31,10 +31,6 @@ class NewsesScreen extends Component {
     key: number;
   };
 
-  static navigationOptions = {
-    title: '所有新闻',
-  };
-
   constructor() {
     super();
     this.state = {

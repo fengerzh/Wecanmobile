@@ -177,6 +177,30 @@ class MineScreen extends Component {
               </Card>
             </View>
           )}
+          {this.props.segSelected === 2 && (
+            <View>
+              <Card>
+                <CardItem>
+                  <Body style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('AllFacItems')}>
+                      <View>
+                        <Image source={{uri: 'https://wx.weinnovators.com/images/project-logo.jpg'}} style={{ width: 45, height: 45 }}/>
+                        <Text style={{textAlign: 'center'}}>出租管理</Text>
+                      </View>
+                    </TouchableOpacity>
+                    <View>
+                      <Image source={{uri: 'https://wx.weinnovators.com/images/project-logo.jpg'}} style={{ width: 45, height: 45 }}/>
+                      <Text style={{textAlign: 'center'}}>客户管理</Text>
+                    </View>
+                    <View>
+                      <Image source={{uri: 'https://wx.weinnovators.com/images/project-logo.jpg'}} style={{ width: 45, height: 45 }}/>
+                      <Text style={{textAlign: 'center'}}>XX管理</Text>
+                    </View>
+                  </Body>
+                </CardItem>
+              </Card>
+            </View>
+          )}
         </Content>
       </Container>
     );

@@ -9,6 +9,8 @@ import ResourcesReducer from './ResourcesReducer';
 import ResourceReducer from './ResourceReducer';
 import NewsesReducer from './NewsesReducer';
 import MineReducer from './MineReducer';
+import FacItemsReducer from './FacItemsReducer';
+import ErrorReducer from './ErrorReducer';
 
 export default combineReducers({
   login: LoginReducer,
@@ -18,6 +20,8 @@ export default combineReducers({
   resource: ResourceReducer,
   newses: NewsesReducer,
   mine: MineReducer,
+  facItems: FacItemsReducer,
+  error: ErrorReducer,
 });
 
 // 添加persist黑名单，以下这些reducer不需要持久化
@@ -27,4 +31,6 @@ export const persistentStoreBlacklist = [
   'resources',
   'resource',
   'newses',
+  'facItems',
+  'error',
 ];

@@ -29,6 +29,9 @@ import {
   setFacProj,
   deleteFacProj,
 } from './FacProjSagas';
+import {
+  getFacItems,
+} from './FacItemSagas';
 
 // 在这里统一决定是使用真实API还是使用虚拟API
 // const api = DebugConfig.useFixtures ? FixtureAPI : API.create();
@@ -59,4 +62,5 @@ export default function * root (): any {
   yield fork(setFacProj(privateAPI).watcher);
   yield fork(deleteFacProj(privateAPI).watcher);
   yield fork(getMine(privateAPI).watcher);
+  yield fork(getFacItems(privateAPI).watcher);
 };

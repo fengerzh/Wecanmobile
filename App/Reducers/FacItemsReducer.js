@@ -2,11 +2,14 @@
 
 import Immutable from 'seamless-immutable';
 import { createReducer } from 'reduxsauce';
-
 import Types from '../Actions/Types';
 
 export const INITIAL_STATE = Immutable({
-  activities: null,
+  facItems: [{
+    id: 0,
+    item_name: '',
+    item_cover: '',
+  }],
   fetching: false,
   error: null,
 });
@@ -18,26 +21,16 @@ const request = (state: any) => {
 }
 
 const success = (state: any, action: any) => {
-  const activities = action.activities;
   return state.merge({
     fetching: false,
     error: null,
-    activities,
-  });
-}
-
-const failure = (state: any) => {
-  return state.merge({
-    fetching: false,
-    error: true,
-    activities: null,
+    facItems: action.facItems,
   });
 }
 
 const ACTION_HANDLERS = {
-  [Types.ACTIVITIES_REQUEST]: request,
-  [Types.ACTIVITIES_SUCCESS]: success,
-  [Types.ACTIVITIES_FAILURE]: failure
+  [Types.FACITEMS_REQUEST]: request,
+  [Types.FACITEMS_SUCCESS]: success,
 };
 
 export default createReducer(INITIAL_STATE, ACTION_HANDLERS);

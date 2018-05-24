@@ -53,6 +53,7 @@ const privateAPI = (baseURL: string = 'https://jwt.weinnovators.com/') => {
   const getActUsersByUser = () => api.get('actuser/index');
   const getActivitiesByUser = () => api.get('activity/index');
   const getFacprojsByUser = () => api.get('facproj/index');
+  const getFacItems = () => api.get('facitem/index');
   const setActUser = (id: string) => api.get('actuser/create', {id});
   const deleteActUser = (id: string) => api.get('actuser/delete', {id});
   const insertFacProj = (item_id: number, proj_id: number, start_time: string, end_time: string) => api.get('facproj/create', {
@@ -69,6 +70,7 @@ const privateAPI = (baseURL: string = 'https://jwt.weinnovators.com/') => {
     getActUsersByUser,
     getActivitiesByUser,
     getFacprojsByUser,
+    getFacItems,
     setActUser,
     deleteActUser,
     insertFacProj,

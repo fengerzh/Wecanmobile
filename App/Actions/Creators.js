@@ -41,6 +41,12 @@ const mineRequest = () => ({ type: Types.MINE_REQUEST });
 const mineSuccess = (projects: any, activities: any, facprojs: any) => ({ type: Types.MINE_SUCCESS, projects, activities, facprojs });
 const mineFailure = (errorCode: any) => ({ type: Types.MINE_FAILURE, errorCode });
 
+const facItemsRequest = () => ({ type: Types.FACITEMS_REQUEST });
+const facItemsSuccess = (facItems: any) => ({ type: Types.FACITEMS_SUCCESS, facItems });
+
+const addError = (error: string) => ({ type: Types.ADD_ERROR, error });
+const removeError = () => ({ type: Types.REMOVE_ERROR });
+
 const segChanged = (id: number) => ({ type: Types.SEG_CHANGED, id });
 
 const startup = () => ({ type: Types.STARTUP });
@@ -84,6 +90,12 @@ export default {
   mineRequest,
   mineSuccess,
   mineFailure,
+
+  facItemsRequest,
+  facItemsSuccess,
+
+  addError,
+  removeError,
 
   segChanged,
 

@@ -25,6 +25,7 @@ import sNews from '../Containers/News';
 import sMine from '../Containers/MineScreen';
 import sMyActivities from '../Containers/MyActivitiesScreen';
 import sMyFacprojs from '../Containers/MyFacprojsScreen';
+import sAllFacprojs from '../Containers/AllFacprojsScreen';
 import sSettings from '../Containers/SettingsScreen';
 import sAbout from '../Containers/AboutScreen';
 
@@ -113,6 +114,13 @@ const AppNavigation = TabNavigator(
           screen: sMyFacprojs,
           navigationOptions: ({ navigation }) => ({
             title: '我的预约',
+            tabBarVisible: false,
+          }),
+        },
+        AllFacprojs: {
+          screen: sAllFacprojs,
+          navigationOptions: ({ navigation }) => ({
+            title: '管理预约',
             tabBarVisible: false,
           }),
         },

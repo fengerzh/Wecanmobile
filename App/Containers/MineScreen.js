@@ -166,10 +166,12 @@ class MineScreen extends Component {
                       <Image source={{uri: 'https://wx.weinnovators.com/images/project-logo.jpg'}} style={{ width: 45, height: 45 }}/>
                       <Text style={{textAlign: 'center'}}>活动管理</Text>
                     </View>
-                    <View>
-                      <Image source={{uri: 'https://wx.weinnovators.com/images/project-logo.jpg'}} style={{ width: 45, height: 45 }}/>
-                      <Text style={{textAlign: 'center'}}>预约管理</Text>
-                    </View>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('AllFacprojs')}>
+                      <View>
+                        <Image source={{uri: 'https://wx.weinnovators.com/images/project-logo.jpg'}} style={{ width: 45, height: 45 }}/>
+                        <Text style={{textAlign: 'center'}}>预约管理</Text>
+                      </View>
+                    </TouchableOpacity>
                   </Body>
                 </CardItem>
               </Card>

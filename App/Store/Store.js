@@ -1,7 +1,7 @@
 // @flow
 
 import { createStore, applyMiddleware, compose } from 'redux';
-import { autoRehydrate } from 'redux-persist';
+// import { autoRehydrate } from 'redux-persist';
 import createSagaMiddleware from 'redux-saga';
 import rootReducer from '../Reducers/';
 import sagas from '../Sagas/';
@@ -27,7 +27,7 @@ export default () => {
     // 如果配置中要求采用持久化
     const enhancers = compose(
       applyMiddleware(...middleware),
-      autoRehydrate()
+      // autoRehydrate()
     );
 
     store = createAppropriateStore(

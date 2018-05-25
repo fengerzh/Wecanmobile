@@ -125,17 +125,16 @@ const AppNavigation = TabNavigator(
             tabBarVisible: false,
           }),
         },
-<<<<<<< HEAD
         AllFacprojs: {
           screen: sAllFacprojs,
           navigationOptions: ({ navigation }) => ({
             title: '管理预约',
-=======
+          }),
+        },
         AllFacItems: {
           screen: sAllFacItems,
           navigationOptions: ({ navigation }) => ({
             title: '出租管理',
->>>>>>> ca5cc3eaa02b15e5c4c77806e047f670d282c03d
             tabBarVisible: false,
           }),
         },
